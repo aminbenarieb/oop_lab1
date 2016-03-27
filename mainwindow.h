@@ -16,6 +16,7 @@ protected:
     void paintEvent(QPaintEvent *);
 
 private:
+    bool eventFilter(QObject *, QEvent *);
     void showMsg(QString msg);
 };
 
