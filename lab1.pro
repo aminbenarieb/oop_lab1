@@ -13,7 +13,14 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    handler.cpp \
+    qpaintwidget.cpp
 
 HEADERS  += mainwindow.h \
-    config.h
+    config.h \
+    handler.h \
+    qpaintwidget.h
+
+FORMS += \
+    mainwindow.ui
