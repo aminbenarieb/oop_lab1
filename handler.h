@@ -26,7 +26,7 @@ union ParamInfo
 {
     ScaleInfo  scale;    // scaling
     MoveInfo   move;     // moving (shifting, rotating)
-    StreamInfo stream;   // data stream
+    StreamInfo stream;   // input data stream
     CanvasInfo canvas;   // containter with canvas
 };
 
