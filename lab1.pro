@@ -15,12 +15,22 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     handler.cpp \
-    qpaintwidget.cpp
+    qpaintwidget.cpp \
+    steamhandler.cpp \
+    errorinfo.cpp \
+    scenehandler.cpp \
+    modelhandler.cpp \
+    canvashandler.cpp
 
 HEADERS  += mainwindow.h \
     config.h \
     handler.h \
-    qpaintwidget.h
+    qpaintwidget.h \
+    steamhandler.h \
+    errorinfo.h \
+    scenehandler.h \
+    modelhandler.h \
+    canvashandler.h
 
 FORMS += \
     mainwindow.ui

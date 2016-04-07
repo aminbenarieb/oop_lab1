@@ -50,26 +50,29 @@ public slots:
         QByteArray byteArray = QFileDialog::getOpenFileName(this,
                                                      tr("Open model"), "./", tr("Model files (*.txt)")).toLatin1();
 
-        hParam param = hParam();
-        param.filename = byteArray.data();
+        StreamInfo stream = StreamInfo();
+        stream.filename = byteArray.data();
 
-        fStatus status = handle(hLoad, &param);
+        ParamInfo param = ParamInfo();
+        param.stream = stream;
+
+        ErrorInfo status = handle(aLoad, &param);
 
         switch (status)
         {
-            case (fOk):
+            case (eOk):
                 break;
-            case (fNotFound):
+            case (eNotFound):
             {
                 showMsg(kMsgFileNotFound);
                 break;
             }
-            case (fCorrupted):
+            case (eCorrupted):
             {
                 showMsg(kMsgFileCorrupted);
                 break;
             }
-            case (fOutOfMemory):
+            case (eOutOfMemory):
             {
                 showMsg(kMsgFileOutMemory);
                 break;
@@ -101,15 +104,15 @@ private:
                 double dx = (e->y() - mousePoint.y()) / kMouseSensetivity;
                 mousePoint = e->pos();
 
-                sMove move;
+                MoveInfo move;
                 move.dx = dx;
                 move.dy = 0.0;
                 move.dz = dy;
 
-                hParam param;
+                ParamInfo param;
                 param.move = move;
 
-                handle(hRotate, &param);
+                handle(aRotate, &param);
             }
 
             return true;
@@ -123,15 +126,15 @@ private:
                 case Qt::Key_Up:
                 {
                     // Shift up
-                    sMove shift;
+                    MoveInfo shift;
                     shift.dx = 0;
                     shift.dy = -1;
                     shift.dz = 0;
 
-                    hParam param;
+                    ParamInfo param;
                     param.move = shift;
 
-                    handle(hScale, &param);
+                    handle(aScale, &param);
 
                     break;
                 }
@@ -140,60 +143,66 @@ private:
 
 
                     //Shift down
-                    sMove shift;
+                    MoveInfo shift;
                     shift.dx = 0;
                     shift.dy = 1;
                     shift.dz = 0;
 
-                    hParam param;
+                    ParamInfo param;
                     param.move = shift;
 
-                    handle(hScale, &param);
+                    handle(aScale, &param);
 
                     break;
                 }
                 case Qt::Key_Left:
                 {
                     // Shift left
-                    sMove shift;
+                    MoveInfo shift;
                     shift.dx = -1;
                     shift.dy = 0;
                     shift.dz = 0;
 
-                    hParam param;
+                    ParamInfo param;
                     param.move = shift;
 
-                    handle(hScale, &param);
+                    handle(aScale, &param);
                     break;
                 }
                 case Qt::Key_Right:
                 {
                     // Shift right
-                    sMove shift;
+                    MoveInfo shift;
                     shift.dx = 1;
                     shift.dy = 0;
                     shift.dz = 0;
 
-                    hParam param;
+                    ParamInfo param;
                     param.move = shift;
 
-                    handle(hScale, &param);
+                    handle(aScale, &param);
                     break;
                 }
                 case Qt::Key_W:
                 {
                     // Zoom in
-                    hParam param;
-                    param.scale = 1.1;
-                    handle(hScale, &param);
+                    ScaleInfo scale = ScaleInfo();
+                    scale.value = 1.1;
+
+                    ParamInfo param;
+                    param.scale = scale;
+                    handle(aScale, &param);
                     break;
                 }
                 case Qt::Key_S:
                 {
                     // Zoom out
-                    hParam param;
-                    param.scale = 0.9;
-                    handle(hScale, &param);
+                    ScaleInfo scale = ScaleInfo();
+                    scale.value = 0.9;
+
+                    ParamInfo param;
+                    param.scale = scale;
+                    handle(aScale, &param);
                     break;
                 }
             default:

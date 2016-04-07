@@ -2,47 +2,36 @@
 #define HANDLER_H
 
 #include "config.h"
-#include "qpaintwidget.h"
 
-//TEMP LOCATION
-struct sMove
+#include "errorinfo.h"
+
+#include "canvashandler.h"
+#include "steamhandler.h"
+#include "scenehandler.h"
+#include "modelhandler.h"
+
+
+enum ActionInfo
 {
-    double dx;
-    double dy;
-    double dz;
+    aInit,
+    aLoad,
+    aMove,
+    aRotate,
+    aScale,
+    aDraw
 };
-struct sCanvasContainter
+
+
+union ParamInfo
 {
-    QPaintWidget *canvas;
-};
-enum fStatus {
-    fOk,
-    fNotFound,
-    fCorrupted,
-    fOutOfMemory,
-    fUnknownError
-};
-//
-enum hAction
-{
-    hInit,
-    hLoad,
-    hMove,
-    hRotate,
-    hScale
+    ScaleInfo  scale;    // scaling
+    MoveInfo   move;     // moving (shifting, rotating)
+    StreamInfo stream;   // data stream
+    CanvasInfo canvas;   // containter with canvas
 };
 
 
-union hParam
-{
-    double scale;               // scaling
-    sMove move;                 // moving (shifting, rotating)
-    char *filename;             // model file name
-    sCanvasContainter canvas;   // containter with canvas
-};
-
-
-fStatus handle(hAction action, hParam *param);
+ErrorInfo handle(ActionInfo action, ParamInfo *param);
 
 
 #endif // HANDLER_H

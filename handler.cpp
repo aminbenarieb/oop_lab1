@@ -1,38 +1,46 @@
 #include "handler.h"
 #include "QDebug"
 
-fStatus handle(hAction action, hParam *param)
+ErrorInfo handle(ActionInfo action, ParamInfo *param)
 {
-    fStatus status = fOk;
+    ErrorInfo error = eOk;
+    static ModelInfo model = ModelInfo();
 
-    switch (action)
+    if (!param)
     {
-        case hInit:
+        error = eNoArguments;
+    }
+    else
+    {
+        switch (action)
         {
-            break;
-        }
-        case hLoad:
-        {
-            break;
-        }
-        case hMove:
-        {
-            break;
-        }
-        case hRotate:
-        {
-            break;
-        }
-        case hScale:
-        {
-            break;
-        }
-        default:
-        {
-            break;
+            case aInit:
+            {
+                break;
+            }
+            case aLoad:
+            {
+                error = stream_load_model(&model, param->stream);
+                break;
+            }
+            case aMove:
+            {
+                break;
+            }
+            case aRotate:
+            {
+                break;
+            }
+            case aScale:
+            {
+                break;
+            }
+            default:
+            {
+                break;
+            }
         }
     }
 
-    return status;
-
+    return error;
 }
