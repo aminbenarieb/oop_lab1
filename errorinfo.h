@@ -3,8 +3,8 @@
 
 enum ErrorInfo {
     eOk,
-    eNotFound,
-    eCorrupted,
+    eFileNotFound,
+    eFileCorrupted,
     eOutOfMemory,
     eNoArguments,
     eUnknownError
