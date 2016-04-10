@@ -9,6 +9,7 @@
 #include <QPoint>
 
 #include "ui_mainwindow.h"
+#include "config.h"
 #include "handler.h"
 
 class MainWindow : public  QMainWindow, public Ui::MainWindow
@@ -62,12 +63,12 @@ public slots:
         {
             case (eOk):
                 break;
-            case (eNotFound):
+            case (eFileNotFound):
             {
                 showMsg(kMsgFileNotFound);
                 break;
             }
-            case (eCorrupted):
+            case (eFileCorrupted):
             {
                 showMsg(kMsgFileCorrupted);
                 break;

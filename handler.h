@@ -1,8 +1,6 @@
 #ifndef HANDLER_H
 #define HANDLER_H
 
-#include "config.h"
-
 #include "errorinfo.h"
 
 #include "canvashandler.h"
