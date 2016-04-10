@@ -20,7 +20,9 @@ SOURCES += main.cpp\
     errorinfo.cpp \
     scenehandler.cpp \
     modelhandler.cpp \
-    canvashandler.cpp
+    canvashandler.cpp \
+    filehandler.cpp \
+    fileloader.cpp
 
 HEADERS  += mainwindow.h \
     config.h \
@@ -30,7 +32,9 @@ HEADERS  += mainwindow.h \
     errorinfo.h \
     scenehandler.h \
     modelhandler.h \
-    canvashandler.h
+    canvashandler.h \
+    filehandler.h \
+    fileloader.h
 
 FORMS += \
     mainwindow.ui
