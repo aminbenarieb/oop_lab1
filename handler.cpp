@@ -1,10 +1,9 @@
 #include "handler.h"
-#include "QDebug"
 
 ErrorInfo handle(ActionInfo action, ParamInfo *param)
 {
     ErrorInfo error = eOk;
-    static ModelInfo model = ModelInfo();
+    static ModelInfo* model = modelinfo_alloc();
 
     if (!param)
     {
@@ -20,7 +19,7 @@ ErrorInfo handle(ActionInfo action, ParamInfo *param)
             }
             case aLoad:
             {
-                error = stream_load_model(&model, param->stream);
+                error = stream_load_model(model, &(param->stream) );
                 break;
             }
             case aMove:
