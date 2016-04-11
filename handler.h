@@ -11,7 +11,6 @@
 
 enum ActionInfo
 {
-    aInit,
     aLoad,
     aMove,
     aRotate,

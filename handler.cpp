@@ -13,10 +13,6 @@ ErrorInfo handle(ActionInfo action, ParamInfo *param)
     {
         switch (action)
         {
-            case aInit:
-            {
-                break;
-            }
             case aLoad:
             {
                 error = stream_load_model(&model, &(param->stream) );
