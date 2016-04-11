@@ -34,6 +34,7 @@ ErrorInfo stream_handle_model(ModelInfo *model, StreamInfo streamInfo)
             error = file_handle_edges(streamInfo.file, &(model->edges) );
             if (error == eOk)
             {
+                modelinfo_dealloc( model );
                 model = bufferModelInfo;
                 /* model->next =  bufferModelInfo; */
             }
