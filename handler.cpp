@@ -36,6 +36,7 @@ ErrorInfo handle(ActionInfo action, ParamInfo *param)
             }
             default:
             {
+                error = eInvalidAction;
                 break;
             }
         }

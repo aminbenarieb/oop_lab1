@@ -7,6 +7,7 @@ enum ErrorInfo {
     eFileCorrupted,
     eOutOfMemory,
     eNoArguments,
+    eInvalidAction,
     eUnknownError
 };
 
