@@ -1,6 +1,8 @@
 #ifndef MODELHANDLER_H
 #define MODELHANDLER_H
 
+#include "modeldata.h"
+
 struct MoveInfo
 {
     double dx;
@@ -11,10 +13,15 @@ struct ScaleInfo
 {
     double value;
 };
+
 struct ModelInfo
 {
-   // dump
+    PointVectorInfo points;
+    EdgeVectorInfo  edges;
 };
+
+ModelInfo* modelinfo_alloc();
+void modelinfo_dealloc(ModelInfo *);
 
 
 #endif // MODELHANDLER_H
