@@ -31,7 +31,10 @@ public:
         QPalette Pal = palette();
         Pal.setColor(QPalette::Background, Qt::white);
         wgt->setPalette(Pal);
+        //*******************************
 
+        //***** Param Settings ******
+        param.canvasInfo.canvas = wgt;
         //*******************************
 
         //***** Buttons Settings ******
@@ -57,7 +60,7 @@ public slots:
         ParamInfo param = ParamInfo();
         param.stream = stream;
 
-        ErrorInfo status = handle(aLoad, &param);
+        ErrorInfo status = handle(aLoad, param);
 
         switch (status)
         {
@@ -89,6 +92,7 @@ public slots:
 
 private:
     QPoint mousePoint;
+    ParamInfo param;
     bool eventFilter(QObject *, QEvent *event)
     {
         if(event->type() == QEvent::MouseButtonPress )
@@ -110,10 +114,9 @@ private:
                 move.dy = 0.0;
                 move.dz = dy;
 
-                ParamInfo param;
                 param.move = move;
 
-                handle(aRotate, &param);
+                handle(aRotate, param);
             }
 
             return true;
@@ -132,10 +135,10 @@ private:
                     shift.dy = -1;
                     shift.dz = 0;
 
-                    ParamInfo param;
+
                     param.move = shift;
 
-                    handle(aScale, &param);
+                    handle(aScale, param);
 
                     break;
                 }
@@ -149,10 +152,10 @@ private:
                     shift.dy = 1;
                     shift.dz = 0;
 
-                    ParamInfo param;
+
                     param.move = shift;
 
-                    handle(aScale, &param);
+                    handle(aScale, param);
 
                     break;
                 }
@@ -164,10 +167,10 @@ private:
                     shift.dy = 0;
                     shift.dz = 0;
 
-                    ParamInfo param;
+
                     param.move = shift;
 
-                    handle(aScale, &param);
+                    handle(aScale, param);
                     break;
                 }
                 case Qt::Key_Right:
@@ -178,10 +181,10 @@ private:
                     shift.dy = 0;
                     shift.dz = 0;
 
-                    ParamInfo param;
+
                     param.move = shift;
 
-                    handle(aScale, &param);
+                    handle(aScale, param);
                     break;
                 }
                 case Qt::Key_W:
@@ -190,9 +193,9 @@ private:
                     ScaleInfo scale = ScaleInfo();
                     scale.value = 1.1;
 
-                    ParamInfo param;
+
                     param.scale = scale;
-                    handle(aScale, &param);
+                    handle(aScale, param);
                     break;
                 }
                 case Qt::Key_S:
@@ -201,9 +204,9 @@ private:
                     ScaleInfo scale = ScaleInfo();
                     scale.value = 0.9;
 
-                    ParamInfo param;
+
                     param.scale = scale;
-                    handle(aScale, &param);
+                    handle(aScale, param);
                     break;
                 }
             default:

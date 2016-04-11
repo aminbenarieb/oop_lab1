@@ -24,11 +24,11 @@ union ParamInfo
     ScaleInfo  scale;    // scaling
     MoveInfo   move;     // moving (shifting, rotating)
     StreamInfo stream;   // input data stream
-    CanvasInfo canvas;   // containter with canvas
+    CanvasInfo canvasInfo;   // containter with canvas
 };
 
 
-ErrorInfo handle(ActionInfo action, ParamInfo *param);
+ErrorInfo handle(ActionInfo action, ParamInfo param);
 
 
 #endif // HANDLER_H

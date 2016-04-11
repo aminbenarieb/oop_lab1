@@ -1,42 +1,37 @@
 #include "handler.h"
 
-ErrorInfo handle(ActionInfo action, ParamInfo *param)
+ErrorInfo handle(ActionInfo action, ParamInfo param)
 {
     ErrorInfo error = eOk;
     static ModelInfo model;
 
-    if (!param)
+    switch (action)
     {
-        error = eNoArguments;
-    }
-    else
-    {
-        switch (action)
+        case aLoad:
         {
-            case aLoad:
-            {
-                error = stream_load_model(&model, &(param->stream) );
-                break;
-            }
-            case aMove:
-            {
-                break;
-            }
-            case aRotate:
-            {
-                break;
-            }
-            case aScale:
-            {
-                break;
-            }
-            default:
-            {
-                error = eInvalidAction;
-                break;
-            }
+            error = stream_load_model(&model, &(param.stream) );
+            break;
+        }
+        case aMove:
+        {
+            break;
+        }
+        case aRotate:
+        {
+            break;
+        }
+        case aScale:
+        {
+            break;
+        }
+        default:
+        {
+            error = eInvalidAction;
+            break;
         }
     }
+
+    scene_draw_model(param.canvasInfo, model);
 
     return error;
 }
