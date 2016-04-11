@@ -1,7 +1,7 @@
 #include "steamhandler.h"
 #include "filehandler.h"
 
-ErrorInfo stream_load_model(ModelInfo *model, StreamInfo streamInfo)
+ErrorInfo stream_load_model(ModelInfo *model, StreamInfo* streamInfo)
 {
     ErrorInfo error = eOk;
 
@@ -10,7 +10,7 @@ ErrorInfo stream_load_model(ModelInfo *model, StreamInfo streamInfo)
     if (error == eOk){
 
         // processing file
-        error = stream_handle_model(model, streamInfo);
+        error = stream_handle_model(model, *streamInfo);
 
         // closing file
         stream_close_model(streamInfo);
@@ -24,26 +24,27 @@ ErrorInfo stream_load_model(ModelInfo *model, StreamInfo streamInfo)
 ErrorInfo stream_handle_model(ModelInfo *model, StreamInfo streamInfo)
 {
     ErrorInfo error = eOk;
-    ModelInfo bufferModelInfo = /*memory allocation*/ModelInfo();
+    ModelInfo *bufferModelInfo = modelinfo_alloc();
 
-    if (/*bufferModelInfo*/false)
+    if (bufferModelInfo)
     {
-        error = file_handle_points(streamInfo.file, /*model->pointarray*/ new PointArrayInfo);
+        error = file_handle_points(streamInfo.file, &(model->points) );
         if (error == eOk)
         {
-            error = file_handle_edges(streamInfo.file, /*model->edgesarray*/ new EdgeArrayInfo);
+            error = file_handle_edges(streamInfo.file, &(model->edges) );
             if (error == eOk)
             {
-                //append model to modelStack
+                model = bufferModelInfo;
+                /* model->next =  bufferModelInfo; */
             }
             else
             {
-                //release bufferModelInfo
+                modelinfo_dealloc( bufferModelInfo );
             }
         }
         else
         {
-            //release bufferModelInfo
+            modelinfo_dealloc( bufferModelInfo );
         }
     }
     else
@@ -54,12 +55,12 @@ ErrorInfo stream_handle_model(ModelInfo *model, StreamInfo streamInfo)
     return error;
 }
 
-ErrorInfo stream_open_model(StreamInfo streamInfo)
+ErrorInfo stream_open_model(StreamInfo *streamInfo)
 {
     ErrorInfo error = eOk;
-    streamInfo.file = fopen(streamInfo.filename, "r");
+    streamInfo->file = fopen(streamInfo->filename, "r");
 
-    if (!streamInfo.file)
+    if (!streamInfo->file)
     {
         error = eFileNotFound;
     }
@@ -67,7 +68,7 @@ ErrorInfo stream_open_model(StreamInfo streamInfo)
     return error;
 }
 
-void stream_close_model(StreamInfo streamInfo)
+void stream_close_model(StreamInfo* streamInfo)
 {
-    fclose(streamInfo.file);
+    fclose(streamInfo->file);
 }
