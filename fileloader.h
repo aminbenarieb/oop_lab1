@@ -6,8 +6,8 @@
 #include <iostream>
 
 ErrorInfo file_load_count( FILE *, int *);
-ErrorInfo file_load_point( FILE *, PointInfo *);
-ErrorInfo file_load_edge(  FILE *, EdgeInfo *);
+ErrorInfo file_load_points(FILE *, PointVectorInfo *);
+ErrorInfo file_load_edges(FILE *, EdgeVectorInfo *);
 
 
 #endif // FILELOADER_H

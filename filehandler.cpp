@@ -1,30 +1,7 @@
 #include "filehandler.h"
 #include <iostream>
 #include "datahandler.h"
-
-// MARK: Loading data
-
-ErrorInfo file_load_points(FILE *file, PointVectorInfo *pointArrayInfo)
-{
-    ErrorInfo error = eOk;
-
-    for (int i = 0;  (i < pointArrayInfo->count) && (error == eOk);  i++)
-    {
-        error = file_load_point( file, &(pointArrayInfo->vector[i]) );
-    }
-
-    return error;
-}
-ErrorInfo file_load_edges(FILE *file, EdgeVectorInfo *edgesArrayInfo)
-{
-    ErrorInfo error = eOk;
-
-    for (int i = 0;  (i < edgesArrayInfo->count) && (error == eOk);  i++)
-    {
-        error = file_load_edge( file, &(edgesArrayInfo->vector[i]) );
-    }
-    return error;
-}
+#include "fileloader.h"
 
 // MARK: Handling data
 
