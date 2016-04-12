@@ -10,7 +10,7 @@ struct CanvasInfo
 };
 
 
-void canvas_draw_lines(CanvasInfo, LineVectorInfo );
+void canvas_draw_line(CanvasInfo canvasInfo, PointInfo, PointInfo);
 void canvas_clear(CanvasInfo);
 
 

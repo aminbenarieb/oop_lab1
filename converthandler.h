@@ -16,9 +16,8 @@ struct LineVectorInfo
     LineInfo *vector;
 };
 
-void                 convert_model_to_lines(LineVectorInfo * , ModelInfo);
-void                 convert_dealloc_lines(LineVectorInfo *);
-ErrorInfo            convert_alloc_lines(LineVectorInfo *, int);
-
+ErrorInfo convert_alloc_points(PointVectorInfo  *, int);
+void  convert_dealloc_points(PointVectorInfo  *);
+ErrorInfo convert_model_to_points(PointVectorInfo * , ModelInfo, TransformInfo);
 
 #endif // CONVERTHANDLER_H

@@ -3,31 +3,30 @@
 
 //MARK: Memory managment
 
-void convert_dealloc_lines(LineVectorInfo * lineVectorInfo)
+void convert_dealloc_points(PointVectorInfo  *pointVectorInfo)
 {
-    delete lineVectorInfo->vector;
-    delete lineVectorInfo;
+    delete pointVectorInfo->vector;
+    delete pointVectorInfo;
 }
-ErrorInfo convert_alloc_lines(LineVectorInfo * lineVectorInfo, int count)
+ErrorInfo convert_alloc_points(PointVectorInfo  *pointVectorInfo, int count)
 {
-
     ErrorInfo error = eOk;
-    lineVectorInfo = new LineVectorInfo;
-    if (lineVectorInfo)
+    pointVectorInfo = new PointVectorInfo;
+    if (pointVectorInfo)
     {
-        LineInfo *vector = new LineInfo [count];
+        PointInfo *vector = new PointInfo [count];
         if (vector)
         {
-            lineVectorInfo->count = count;
-            lineVectorInfo->vector = vector;
+            pointVectorInfo->count = count;
+            pointVectorInfo->vector = vector;
         }
         else
         {
-            convert_dealloc_lines(lineVectorInfo);
+            convert_dealloc_points(pointVectorInfo);
         }
     }
 
-    if (!lineVectorInfo)
+    if (!pointVectorInfo)
     {
         error = eOutOfMemory;
     }
@@ -35,10 +34,14 @@ ErrorInfo convert_alloc_lines(LineVectorInfo * lineVectorInfo, int count)
     return error;
 }
 
-//MARK:
+//MARK: Converstation methods
 
-void convert_model_to_lines(LineVectorInfo *lineVectorInfo, ModelInfo modelInfo)
+
+ErrorInfo convert_model_to_points(PointVectorInfo *pointVectorInfo, ModelInfo modelInfo, TransformInfo transformInfo)
 {
 
+    ErrorInfo error = eOk;
+
+    return eOk;
 
 }

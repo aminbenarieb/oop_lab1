@@ -5,11 +5,7 @@ void canvas_clear(CanvasInfo canvasInfo){
     canvasInfo.canvas->clear();
 }
 
-void canvas_draw_lines(CanvasInfo canvasInfo, LineVectorInfo lineVectorInfo)
+void canvas_draw_line(CanvasInfo canvasInfo, PointInfo startPoint, PointInfo endPoint)
 {
-    for (int i = 0; i <  lineVectorInfo.count; i++)
-    {
-        LineInfo lineInfo =  lineVectorInfo.vector[i];
-        canvasInfo.canvas->drawLine(lineInfo.startPoint.x, lineInfo.startPoint.y, lineInfo.endPoint.x, lineInfo.endPoint.y);
-    }
+    canvasInfo.canvas->drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
 }
