@@ -12,6 +12,8 @@
 #include "config.h"
 #include "handler.h"
 
+#define FILENAME (char*)("/Users/aminbenarieb/Desktop/test.txt")
+
 class MainWindow : public  QMainWindow, public Ui::MainWindow
 {
     Q_OBJECT
@@ -33,10 +35,6 @@ public:
         wgt->setPalette(Pal);
         //*******************************
 
-        //***** Param Settings ******
-        param.canvasInfo.canvas = wgt;
-        //*******************************
-
         //***** Buttons Settings ******
         btnLoad->setText(kBtnTextLoad);
         //*******************************
@@ -51,14 +49,11 @@ public slots:
     void slotLoad()
     {
 
-        QByteArray byteArray = QFileDialog::getOpenFileName(this,
-                                                     tr("Open model"), "./", tr("Model files (*.txt)")).toLatin1();
-
-        StreamInfo stream = StreamInfo();
-        stream.filename = byteArray.data();
-
         ParamInfo param = ParamInfo();
-        param.stream = stream;
+        param.stream.filename  = FILENAME;
+        param.canvasInfo.canvas = wgt;
+
+        qDebug()<<param.stream.filename;
 
         ErrorInfo status = handle(aLoad, param);
 
@@ -114,7 +109,7 @@ private:
                 move.dy = 0.0;
                 move.dz = dy;
 
-                param.move = move;
+                param.transformInfo.moveInfo = move;
 
                 handle(aRotate, param);
             }
@@ -136,7 +131,7 @@ private:
                     shift.dz = 0;
 
 
-                    param.move = shift;
+                    param.transformInfo.moveInfo = shift;
 
                     handle(aScale, param);
 
@@ -153,7 +148,7 @@ private:
                     shift.dz = 0;
 
 
-                    param.move = shift;
+                    param.transformInfo.moveInfo = shift;
 
                     handle(aScale, param);
 
@@ -168,7 +163,7 @@ private:
                     shift.dz = 0;
 
 
-                    param.move = shift;
+                    param.transformInfo.moveInfo = shift;
 
                     handle(aScale, param);
                     break;
@@ -182,7 +177,7 @@ private:
                     shift.dz = 0;
 
 
-                    param.move = shift;
+                    param.transformInfo.moveInfo = shift;
 
                     handle(aScale, param);
                     break;
@@ -194,7 +189,7 @@ private:
                     scale.value = 1.1;
 
 
-                    param.scale = scale;
+                    param.transformInfo.scaleInfo = scale;
                     handle(aScale, param);
                     break;
                 }
@@ -205,7 +200,7 @@ private:
                     scale.value = 0.9;
 
 
-                    param.scale = scale;
+                    param.transformInfo.scaleInfo = scale;
                     handle(aScale, param);
                     break;
                 }

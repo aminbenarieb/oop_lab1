@@ -5,7 +5,7 @@
 #include "canvashandler.h"
 #include "modelhandler.h"
 
-ErrorInfo scene_draw_model(CanvasInfo, ModelInfo);
+ErrorInfo scene_draw(CanvasInfo, ModelInfo, TransformInfo);
 
 
 #endif // SCENEHANDLER_H

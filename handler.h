@@ -21,10 +21,9 @@ enum ActionInfo
 
 union ParamInfo
 {
-    ScaleInfo  scale;    // scaling
-    MoveInfo   move;     // moving (shifting, rotating)
-    StreamInfo stream;   // input data stream
-    CanvasInfo canvasInfo;   // containter with canvas
+    TransformInfo transformInfo;   // transform data (scaling, shifting, rotating)
+    StreamInfo stream;             // input data stream
+    CanvasInfo canvasInfo;         // containter with canvas
 };
 
 

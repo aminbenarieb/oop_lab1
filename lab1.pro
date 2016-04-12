@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     canvashandler.cpp \
     filehandler.cpp \
     fileloader.cpp \
-    datahandler.cpp
+    datahandler.cpp \
+    converthandler.cpp
 
 HEADERS  += mainwindow.h \
     config.h \
@@ -37,7 +38,8 @@ HEADERS  += mainwindow.h \
     filehandler.h \
     fileloader.h \
     modeldata.h \
-    datahandler.h
+    datahandler.h \
+    converthandler.h
 
 FORMS += \
     mainwindow.ui

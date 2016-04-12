@@ -31,7 +31,7 @@ ErrorInfo handle(ActionInfo action, ParamInfo param)
         }
     }
 
-    scene_draw_model(param.canvasInfo, model);
+    scene_draw(param.canvasInfo, model, param.transformInfo);
 
     return error;
 }

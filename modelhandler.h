@@ -9,9 +9,22 @@ struct MoveInfo
     double dy;
     double dz;
 };
+struct RotateInfo
+{
+    double fx;
+    double fy;
+    double fz;
+};
 struct ScaleInfo
 {
     double value;
+};
+
+struct TransformInfo
+{
+    ScaleInfo scaleInfo;
+    MoveInfo  moveInfo;
+    RotateInfo rotateInfo;
 };
 
 struct ModelInfo

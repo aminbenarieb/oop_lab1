@@ -1,23 +1,33 @@
 #include "scenehandler.h"
-
+#include "converthandler.h"
 
 void scene_clean_canvas(CanvasInfo canvasInfo)
 {
-    // cleaning canvas
+    canvas_clear(canvasInfo);
 }
 
-void scene_draw_lines(CanvasInfo canvasInfo)
+ErrorInfo scene_draw_model(ModelInfo modelInfo, CanvasInfo canvasInfo, TransformInfo transformInfo)
 {
-    // drawing lines on canvas
+    ErrorInfo error = eOk;
+    LineVectorInfo lineVectorInfo;
+
+    error = convert_alloc_lines(&lineVectorInfo, modelInfo.edges.count);
+    if (error == eOk)
+    {
+        convert_model_to_lines(&lineVectorInfo, modelInfo);
+        canvas_draw_lines(canvasInfo, lineVectorInfo);
+        convert_dealloc_lines(&lineVectorInfo);
+    }
+
+    return error;
 }
 
-ErrorInfo scene_draw_model(CanvasInfo canvasInfo, ModelInfo modeInfo)
+ErrorInfo scene_draw(CanvasInfo canvasInfo, ModelInfo modeInfo, TransformInfo transformInfo)
 {
-
     ErrorInfo error = eOk;
 
     scene_clean_canvas(canvasInfo);
-    scene_draw_lines(canvasInfo);
+    error = scene_draw_model(modeInfo, canvasInfo, transformInfo);
 
     return error;
 }
