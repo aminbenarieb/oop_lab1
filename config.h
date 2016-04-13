@@ -4,6 +4,7 @@
 #define kTextTitle "Carcas Model Vievew"
 
 #define kBtnTextLoad "Load model"
+#define kBtnTextDraw "Draw model"
 
 #define kMsgFileNotFound  "Файл не найден!"
 #define kMsgFileCorrupted "Файл поврежден или содержит некоректные данные!"

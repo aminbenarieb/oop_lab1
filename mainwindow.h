@@ -37,10 +37,12 @@ public:
 
         //***** Buttons Settings ******
         btnLoad->setText(kBtnTextLoad);
+        btnDraw->setText(kBtnTextDraw);
         //*******************************
 
         //*******************************
         QObject::connect(btnLoad, SIGNAL(clicked()), this, SLOT(slotLoad()));
+        QObject::connect(btnDraw, SIGNAL(clicked()), this, SLOT(slotDraw()));
         //*******************************
 
     }
@@ -49,41 +51,20 @@ public slots:
     void slotLoad()
     {
 
-        ParamInfo param = ParamInfo();
         param.stream.filename  = FILENAME;
-        param.canvasInfo.canvas = wgt;
-
-        qDebug()<<param.stream.filename;
 
         ErrorInfo status = handle(aLoad, param);
-
-        switch (status)
-        {
-            case (eOk):
-                break;
-            case (eFileNotFound):
-            {
-                showMsg(kMsgFileNotFound);
-                break;
-            }
-            case (eFileCorrupted):
-            {
-                showMsg(kMsgFileCorrupted);
-                break;
-            }
-            case (eOutOfMemory):
-            {
-                showMsg(kMsgFileOutMemory);
-                break;
-            }
-            default:
-            {
-                showMsg(kMsgUnknowError);
-            }
-        }
+        handleError(status);
 
     }
+    void slotDraw()
+    {
+        param.canvasInfo.canvas = wgt;
 
+        ErrorInfo status = handle(aLoad, param);
+        handleError(status);
+
+    }
 
 private:
     QPoint mousePoint;
@@ -218,7 +199,33 @@ private:
         msgBox->setWindowModality(Qt::NonModal);
         msgBox->exec();
     }
-
+    void handleError(ErrorInfo status)
+    {
+        switch (status)
+        {
+            case (eOk):
+                break;
+            case (eFileNotFound):
+            {
+                showMsg(kMsgFileNotFound);
+                break;
+            }
+            case (eFileCorrupted):
+            {
+                showMsg(kMsgFileCorrupted);
+                break;
+            }
+            case (eOutOfMemory):
+            {
+                showMsg(kMsgFileOutMemory);
+                break;
+            }
+            default:
+            {
+                showMsg(kMsgUnknowError);
+            }
+        }
+    }
 
 };
 
