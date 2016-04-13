@@ -3,7 +3,7 @@
 
 #include "modeldata.h"
 
-struct MoveInfo
+struct ShiftInfo
 {
     double dx;
     double dy;
@@ -23,7 +23,7 @@ struct ScaleInfo
 struct TransformInfo
 {
     ScaleInfo scaleInfo;
-    MoveInfo  moveInfo;
+    ShiftInfo  shiftInfo;
     RotateInfo rotateInfo;
 };
 

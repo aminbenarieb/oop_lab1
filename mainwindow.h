@@ -84,12 +84,12 @@ private:
                 double dx = (e->y() - mousePoint.y()) / kMouseSensetivity;
                 mousePoint = e->pos();
 
-                MoveInfo move;
+                ShiftInfo move;
                 move.dx = dx;
                 move.dy = 0.0;
                 move.dz = dy;
 
-                param.transformInfo.moveInfo = move;
+                param.transformInfo.shiftInfo = move;
 
                 handle(aRotate, param);
             }
@@ -105,13 +105,13 @@ private:
                 case Qt::Key_Up:
                 {
                     // Shift up
-                    MoveInfo shift;
+                    ShiftInfo shift;
                     shift.dx = 0;
                     shift.dy = -1;
                     shift.dz = 0;
 
 
-                    param.transformInfo.moveInfo = shift;
+                    param.transformInfo.shiftInfo = shift;
 
                     handle(aScale, param);
 
@@ -122,13 +122,13 @@ private:
 
 
                     //Shift down
-                    MoveInfo shift;
+                    ShiftInfo shift;
                     shift.dx = 0;
                     shift.dy = 1;
                     shift.dz = 0;
 
 
-                    param.transformInfo.moveInfo = shift;
+                    param.transformInfo.shiftInfo = shift;
 
                     handle(aScale, param);
 
@@ -137,13 +137,13 @@ private:
                 case Qt::Key_Left:
                 {
                     // Shift left
-                    MoveInfo shift;
+                    ShiftInfo shift;
                     shift.dx = -1;
                     shift.dy = 0;
                     shift.dz = 0;
 
 
-                    param.transformInfo.moveInfo = shift;
+                    param.transformInfo.shiftInfo = shift;
 
                     handle(aScale, param);
                     break;
@@ -151,13 +151,13 @@ private:
                 case Qt::Key_Right:
                 {
                     // Shift right
-                    MoveInfo shift;
+                    ShiftInfo shift;
                     shift.dx = 1;
                     shift.dy = 0;
                     shift.dz = 0;
 
 
-                    param.transformInfo.moveInfo = shift;
+                    param.transformInfo.shiftInfo = shift;
 
                     handle(aScale, param);
                     break;
