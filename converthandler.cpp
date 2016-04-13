@@ -42,6 +42,8 @@ ErrorInfo convert_model_to_points(PointVectorInfo *pointVectorInfo, ModelInfo mo
 
     ErrorInfo error = eOk;
 
+    //try with error: modelInfo.points >> pointVectorInfo using transformInfo;
+
     return eOk;
 
 }

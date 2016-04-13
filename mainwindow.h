@@ -12,7 +12,7 @@
 #include "config.h"
 #include "handler.h"
 
-#define FILENAME (char*)("/Users/aminbenarieb/Desktop/test.txt")
+#define FILENAME (char*)("/Users/aminbenarieb/GitHub/uni/oop/lab1/axis.txt")
 
 class MainWindow : public  QMainWindow, public Ui::MainWindow
 {
@@ -50,7 +50,6 @@ public:
 public slots:
     void slotLoad()
     {
-
         param.stream.filename  = FILENAME;
 
         ErrorInfo status = handle(aLoad, param);
@@ -61,7 +60,7 @@ public slots:
     {
         param.canvasInfo.canvas = wgt;
 
-        ErrorInfo status = handle(aLoad, param);
+        ErrorInfo status = handle(aDraw, param);
         handleError(status);
 
     }
