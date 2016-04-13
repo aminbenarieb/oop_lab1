@@ -19,7 +19,11 @@ void QPaintWidget::clear()
 
 void QPaintWidget::drawLine(int x1, int y1, int x2, int y2)
 {
-    lineStack.push_back( new QLine(x1,y1,x2,y2) );
+    double lm = this->width()/2;
+    double tm = this->height()/2;
+
+    lineStack.push_back( new QLine(lm+x1, tm+y1, lm+x2, tm+y2) );
+    this->update();
 }
 
 void QPaintWidget::paintEvent(QPaintEvent *) {

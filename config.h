@@ -11,7 +11,7 @@
 #define kMsgFileOutMemory "Недостаточно памяти для загрязки модели!"
 #define kMsgUnknowError   "Неизвестная ошибка, что-то пошло не так"
 
-#define kDrawPenWidth 2
+#define kDrawPenWidth 1
 #define kPadding 20
 #define kMouseSensetivity 30.0
 
