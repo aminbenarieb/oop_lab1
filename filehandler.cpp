@@ -5,9 +5,9 @@
 
 // MARK: Handling data
 
-ErrorInfo file_handle_points(FILE *file, PointVectorInfo *pointArrayInfo){
+ErrorInfo file_handle_points(FILE *file, PointVectorInfo &pointArrayInfo){
 
-    ErrorInfo error = file_load_count(file, &(pointArrayInfo->count));
+    ErrorInfo error = file_load_count(file, pointArrayInfo.count);
     if (error == eOk)
     {
         error = datahandler_points_alloc(pointArrayInfo);
@@ -24,9 +24,9 @@ ErrorInfo file_handle_points(FILE *file, PointVectorInfo *pointArrayInfo){
 
     return error;
 }
-ErrorInfo file_handle_edges(FILE *file, EdgeVectorInfo *edgeArrayInfo){
+ErrorInfo file_handle_edges(FILE *file, EdgeVectorInfo &edgeArrayInfo){
 
-    ErrorInfo error = file_load_count(file, &(edgeArrayInfo->count) );
+    ErrorInfo error = file_load_count(file, edgeArrayInfo.count );
     if (error == eOk)
     {
         error = datahandler_edges_alloc(edgeArrayInfo);

@@ -18,6 +18,6 @@ ModelInfo* modelinfo_alloc()
 
 void modelinfo_dealloc(ModelInfo *model)
 {
-    datahandler_points_dealloc( &(model->points) );
-    datahandler_edges_dealloc(  &(model->edges)  );
+    datahandler_points_dealloc( model->points );
+    datahandler_edges_dealloc(  model->edges  );
 }
