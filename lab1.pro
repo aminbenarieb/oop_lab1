@@ -24,7 +24,8 @@ SOURCES += main.cpp\
     filehandler.cpp \
     fileloader.cpp \
     datahandler.cpp \
-    converthandler.cpp
+    converthandler.cpp \
+    matrixhandler.cpp
 
 HEADERS  += mainwindow.h \
     config.h \
@@ -39,7 +40,8 @@ HEADERS  += mainwindow.h \
     fileloader.h \
     modeldata.h \
     datahandler.h \
-    converthandler.h
+    converthandler.h \
+    matrixhandler.h
 
 FORMS += \
     mainwindow.ui
