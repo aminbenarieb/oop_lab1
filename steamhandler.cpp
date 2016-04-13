@@ -1,8 +1,6 @@
 #include "steamhandler.h"
 #include "filehandler.h"
 
-#include <QDebug>
-
 ErrorInfo stream_load_model(ModelInfo *&model, StreamInfo* streamInfo)
 {
     ErrorInfo error = eOk;

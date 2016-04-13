@@ -12,8 +12,6 @@ ErrorInfo handle(ActionInfo action, ParamInfo param)
         case aLoad:
         {
             error = stream_load_model(model, &(param.stream) );
-            qDebug()<<param.stream.filename;
-            qDebug()<<model->edges.count;
             break;
         }
         case aDraw:
