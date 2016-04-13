@@ -12,9 +12,9 @@ struct StreamInfo
     FILE *file;
 };
 
-ErrorInfo stream_load_model(ModelInfo *, StreamInfo*);
+ErrorInfo stream_load_model(ModelInfo *&, StreamInfo*);
 
-ErrorInfo stream_handle_model(ModelInfo *, StreamInfo);
+ErrorInfo stream_handle_model(ModelInfo *&, StreamInfo);
 ErrorInfo stream_open_model(StreamInfo*);
 void stream_close_model(StreamInfo*);
 

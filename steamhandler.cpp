@@ -1,7 +1,9 @@
 #include "steamhandler.h"
 #include "filehandler.h"
 
-ErrorInfo stream_load_model(ModelInfo *model, StreamInfo* streamInfo)
+#include <QDebug>
+
+ErrorInfo stream_load_model(ModelInfo *&model, StreamInfo* streamInfo)
 {
     ErrorInfo error = eOk;
 
@@ -21,7 +23,7 @@ ErrorInfo stream_load_model(ModelInfo *model, StreamInfo* streamInfo)
 
 // MARK: Stream load parts
 
-ErrorInfo stream_handle_model(ModelInfo *model, StreamInfo streamInfo)
+ErrorInfo stream_handle_model(ModelInfo *&model, StreamInfo streamInfo)
 {
     ErrorInfo error = eOk;
     ModelInfo *bufferModelInfo = modelinfo_alloc();
