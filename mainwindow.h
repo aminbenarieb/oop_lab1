@@ -184,6 +184,28 @@ private:
                     handle(aScale, param);
                     break;
                 }
+                case Qt::Key_D:
+                {
+                    // Zoom in
+                    RotateInfo rotate = RotateInfo();
+                    rotate.fx = -10;
+
+                    param.transformInfo.rotateInfo = rotate;
+
+                    handle(aRotate, param);
+                    break;
+                }
+                case Qt::Key_A:
+                {
+                    // Zoom out
+                    RotateInfo rotate = RotateInfo();
+                    rotate.fx = 10;
+
+                    param.transformInfo.rotateInfo = rotate;
+
+                    handle(aRotate, param);
+                    break;
+                }
             default:
                 break;
             }
