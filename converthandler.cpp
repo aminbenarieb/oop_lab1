@@ -37,7 +37,6 @@ ErrorInfo convert_alloc_points(PointVectorInfo  *&pointVectorInfo, int count)
 
 //MARK: Converstation methods
 
-
 ErrorInfo convert_model_to_points(PointVectorInfo *&pointVectorInfo, ModelInfo *modelInfo, TransformInfo transformInfo)
 {
 
