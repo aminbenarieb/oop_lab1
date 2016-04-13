@@ -3,12 +3,13 @@
 
 //MARK: Memory managment
 
-void convert_dealloc_points(PointVectorInfo  *pointVectorInfo)
+void convert_dealloc_points(PointVectorInfo  *&pointVectorInfo)
 {
-    delete pointVectorInfo->vector;
+    if (pointVectorInfo)
+        delete pointVectorInfo->vector;
     delete pointVectorInfo;
 }
-ErrorInfo convert_alloc_points(PointVectorInfo  *pointVectorInfo, int count)
+ErrorInfo convert_alloc_points(PointVectorInfo  *&pointVectorInfo, int count)
 {
     ErrorInfo error = eOk;
     pointVectorInfo = new PointVectorInfo;
@@ -37,7 +38,7 @@ ErrorInfo convert_alloc_points(PointVectorInfo  *pointVectorInfo, int count)
 //MARK: Converstation methods
 
 
-ErrorInfo convert_model_to_points(PointVectorInfo *pointVectorInfo, ModelInfo modelInfo, TransformInfo transformInfo)
+ErrorInfo convert_model_to_points(PointVectorInfo *&pointVectorInfo, ModelInfo *modelInfo, TransformInfo transformInfo)
 {
 
     ErrorInfo error = eOk;

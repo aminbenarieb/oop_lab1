@@ -1,43 +1,42 @@
 #include "scenehandler.h"
 #include "converthandler.h"
 
+#include <QDebug>
+
 void scene_clean_canvas(CanvasInfo canvasInfo)
 {
     canvas_clear(canvasInfo);
 }
-void scene_draw_line(PointInfo *pointVector, CanvasInfo canvasInfo,  EdgeInfo *edge)
+void scene_draw_lines(CanvasInfo canvasInfo, PointInfo *pointVector, EdgeInfo *edgeVector, int edge_count)
 {
-    canvas_draw_line(canvasInfo, pointVector[edge->from], pointVector[edge->to]);
-}
-void scene_draw_lines(CanvasInfo canvasInfo, PointVectorInfo *pointVectorInfo, EdgeVectorInfo *edgeVectorInfo)
-{
-    for (int i = 0; i < edgeVectorInfo->count; i++)
+    for (int i = 0; i < edge_count; i++)
     {
-        scene_draw_line(pointVectorInfo->vector, canvasInfo, &(edgeVectorInfo->vector[i]) );
+        canvas_draw_line(canvasInfo, pointVector[edgeVector[i].from], pointVector[edgeVector[i].to]);
     }
 }
 
-ErrorInfo scene_draw_model(ModelInfo modelInfo, CanvasInfo canvasInfo, TransformInfo transformInfo)
+ErrorInfo scene_draw_model(ModelInfo *modelInfo, CanvasInfo canvasInfo, TransformInfo transformInfo)
 {
     ErrorInfo error = eOk;
-    PointVectorInfo pointVectorInfo;
+    PointVectorInfo *pointVectorInfo = NULL;
 
-    error = convert_alloc_points(&pointVectorInfo, modelInfo.points.count);
+    error = convert_alloc_points(pointVectorInfo, modelInfo->edges.count);
+
     if (error == eOk)
     {
-        convert_model_to_points(&pointVectorInfo, modelInfo, transformInfo);
-        scene_draw_lines(canvasInfo, &pointVectorInfo, &(modelInfo.edges) );
-        convert_dealloc_points(&pointVectorInfo);
+        convert_model_to_points(pointVectorInfo, modelInfo, transformInfo);
+        scene_draw_lines(canvasInfo, pointVectorInfo->vector, modelInfo->edges.vector, modelInfo->edges.count );
+        convert_dealloc_points(pointVectorInfo);
     }
 
     return error;
 }
-ErrorInfo scene_draw(CanvasInfo canvasInfo, ModelInfo modeInfo, TransformInfo transformInfo)
+ErrorInfo scene_draw(CanvasInfo canvasInfo, ModelInfo *modelInfo, TransformInfo transformInfo)
 {
     ErrorInfo error = eOk;
 
     scene_clean_canvas(canvasInfo);
-    error = scene_draw_model(modeInfo, canvasInfo, transformInfo);
+    error = scene_draw_model(modelInfo, canvasInfo, transformInfo);
 
     return error;
 }

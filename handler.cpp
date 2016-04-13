@@ -16,7 +16,7 @@ ErrorInfo handle(ActionInfo action, ParamInfo param)
         }
         case aDraw:
         {
-            error = scene_draw(param.canvasInfo, *model, param.transformInfo);
+            error = scene_draw(param.canvasInfo, model, param.transformInfo);
             break;
         }
         case aMove:
