@@ -30,10 +30,10 @@ ErrorInfo stream_handle_model(ModelInfo *&model, StreamInfo streamInfo)
 
     if (bufferModelInfo)
     {
-        error = file_handle_points(streamInfo.file, &(model->points) );
+        error = file_handle_points(streamInfo.file, bufferModelInfo->points);
         if (error == eOk)
         {
-            error = file_handle_edges(streamInfo.file, &(model->edges) );
+            error = file_handle_edges(streamInfo.file, bufferModelInfo->edges);
             if (error == eOk)
             {
                 modelinfo_dealloc( model );
