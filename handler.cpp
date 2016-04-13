@@ -12,6 +12,11 @@ ErrorInfo handle(ActionInfo action, ParamInfo param)
             error = stream_load_model(&model, &(param.stream) );
             break;
         }
+        case aDraw:
+        {
+            error = scene_draw(param.canvasInfo, model, param.transformInfo);
+            break;
+        }
         case aMove:
         {
             break;
@@ -30,8 +35,6 @@ ErrorInfo handle(ActionInfo action, ParamInfo param)
             break;
         }
     }
-
-    scene_draw(param.canvasInfo, model, param.transformInfo);
 
     return error;
 }
