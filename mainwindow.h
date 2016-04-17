@@ -9,7 +9,10 @@
 #include <QPoint>
 
 #include "ui_mainwindow.h"
+#include "config.h"
 #include "handler.h"
+
+#define FILENAME (char*)("/Users/aminbenarieb/GitHub/uni/oop/lab1/axis.txt")
 
 class MainWindow : public  QMainWindow, public Ui::MainWindow
 {
@@ -30,15 +33,16 @@ public:
         QPalette Pal = palette();
         Pal.setColor(QPalette::Background, Qt::white);
         wgt->setPalette(Pal);
-
         //*******************************
 
         //***** Buttons Settings ******
         btnLoad->setText(kBtnTextLoad);
+        btnDraw->setText(kBtnTextDraw);
         //*******************************
 
         //*******************************
         QObject::connect(btnLoad, SIGNAL(clicked()), this, SLOT(slotLoad()));
+        QObject::connect(btnDraw, SIGNAL(clicked()), this, SLOT(slotDraw()));
         //*******************************
 
     }
@@ -46,45 +50,24 @@ public:
 public slots:
     void slotLoad()
     {
+        param.stream.filename  = FILENAME;
 
-        QByteArray byteArray = QFileDialog::getOpenFileName(this,
-                                                     tr("Open model"), "./", tr("Model files (*.txt)")).toLatin1();
+        ErrorInfo status = handle(aLoad, param);
+        handleError(status);
 
-        hParam param = hParam();
-        param.filename = byteArray.data();
+    }
+    void slotDraw()
+    {
+        param.canvasInfo.canvas = wgt;
 
-        fStatus status = handle(hLoad, &param);
-
-        switch (status)
-        {
-            case (fOk):
-                break;
-            case (fNotFound):
-            {
-                showMsg(kMsgFileNotFound);
-                break;
-            }
-            case (fCorrupted):
-            {
-                showMsg(kMsgFileCorrupted);
-                break;
-            }
-            case (fOutOfMemory):
-            {
-                showMsg(kMsgFileOutMemory);
-                break;
-            }
-            default:
-            {
-                showMsg(kMsgUnknowError);
-            }
-        }
+        ErrorInfo status = handle(aDraw, param);
+        handleError(status);
 
     }
 
-
 private:
     QPoint mousePoint;
+    ParamInfo param;
     bool eventFilter(QObject *, QEvent *event)
     {
         if(event->type() == QEvent::MouseButtonPress )
@@ -101,15 +84,14 @@ private:
                 double dx = (e->y() - mousePoint.y()) / kMouseSensetivity;
                 mousePoint = e->pos();
 
-                sMove move;
+                ShiftInfo move;
                 move.dx = dx;
                 move.dy = 0.0;
                 move.dz = dy;
 
-                hParam param;
-                param.move = move;
+                param.transformInfo.shiftInfo = move;
 
-                handle(hRotate, &param);
+                handle(aRotate, param);
             }
 
             return true;
@@ -123,15 +105,15 @@ private:
                 case Qt::Key_Up:
                 {
                     // Shift up
-                    sMove shift;
+                    ShiftInfo shift;
                     shift.dx = 0;
                     shift.dy = -1;
                     shift.dz = 0;
 
-                    hParam param;
-                    param.move = shift;
 
-                    handle(hScale, &param);
+                    param.transformInfo.shiftInfo = shift;
+
+                    handle(aScale, param);
 
                     break;
                 }
@@ -140,60 +122,88 @@ private:
 
 
                     //Shift down
-                    sMove shift;
+                    ShiftInfo shift;
                     shift.dx = 0;
                     shift.dy = 1;
                     shift.dz = 0;
 
-                    hParam param;
-                    param.move = shift;
 
-                    handle(hScale, &param);
+                    param.transformInfo.shiftInfo = shift;
+
+                    handle(aScale, param);
 
                     break;
                 }
                 case Qt::Key_Left:
                 {
                     // Shift left
-                    sMove shift;
+                    ShiftInfo shift;
                     shift.dx = -1;
                     shift.dy = 0;
                     shift.dz = 0;
 
-                    hParam param;
-                    param.move = shift;
 
-                    handle(hScale, &param);
+                    param.transformInfo.shiftInfo = shift;
+
+                    handle(aScale, param);
                     break;
                 }
                 case Qt::Key_Right:
                 {
                     // Shift right
-                    sMove shift;
+                    ShiftInfo shift;
                     shift.dx = 1;
                     shift.dy = 0;
                     shift.dz = 0;
 
-                    hParam param;
-                    param.move = shift;
 
-                    handle(hScale, &param);
+                    param.transformInfo.shiftInfo = shift;
+
+                    handle(aScale, param);
                     break;
                 }
                 case Qt::Key_W:
                 {
                     // Zoom in
-                    hParam param;
-                    param.scale = 1.1;
-                    handle(hScale, &param);
+                    ScaleInfo scale = ScaleInfo();
+                    scale.value = 1.1;
+
+
+                    param.transformInfo.scaleInfo = scale;
+                    handle(aScale, param);
                     break;
                 }
                 case Qt::Key_S:
                 {
                     // Zoom out
-                    hParam param;
-                    param.scale = 0.9;
-                    handle(hScale, &param);
+                    ScaleInfo scale = ScaleInfo();
+                    scale.value = 0.9;
+
+
+                    param.transformInfo.scaleInfo = scale;
+                    handle(aScale, param);
+                    break;
+                }
+                case Qt::Key_D:
+                {
+                    // Zoom in
+                    RotateInfo rotate = RotateInfo();
+                    rotate.fx = -10;
+
+                    param.transformInfo.rotateInfo = rotate;
+
+                    handle(aRotate, param);
+                    break;
+                }
+                case Qt::Key_A:
+                {
+                    // Zoom out
+                    RotateInfo rotate = RotateInfo();
+                    rotate.fx = 10;
+
+                    param.transformInfo.rotateInfo = rotate;
+
+                    handle(aRotate, param);
                     break;
                 }
             default:
@@ -210,7 +220,33 @@ private:
         msgBox->setWindowModality(Qt::NonModal);
         msgBox->exec();
     }
-
+    void handleError(ErrorInfo status)
+    {
+        switch (status)
+        {
+            case (eOk):
+                break;
+            case (eFileNotFound):
+            {
+                showMsg(kMsgFileNotFound);
+                break;
+            }
+            case (eFileCorrupted):
+            {
+                showMsg(kMsgFileCorrupted);
+                break;
+            }
+            case (eOutOfMemory):
+            {
+                showMsg(kMsgFileOutMemory);
+                break;
+            }
+            default:
+            {
+                showMsg(kMsgUnknowError);
+            }
+        }
+    }
 
 };
 

@@ -1,38 +1,42 @@
 #include "handler.h"
+
 #include "QDebug"
 
-fStatus handle(hAction action, hParam *param)
+ErrorInfo handle(ActionInfo action, ParamInfo param)
 {
-    fStatus status = fOk;
+    ErrorInfo error = eOk;
+    static ModelInfo *model = modelinfo_alloc();
 
     switch (action)
     {
-        case hInit:
+        case aLoad:
+        {
+            error = stream_load_model(model, &(param.stream) );
+            break;
+        }
+        case aDraw:
+        {
+            error = scene_draw(param.canvasInfo, model, param.transformInfo);
+            break;
+        }
+        case aMove:
         {
             break;
         }
-        case hLoad:
+        case aRotate:
         {
             break;
         }
-        case hMove:
-        {
-            break;
-        }
-        case hRotate:
-        {
-            break;
-        }
-        case hScale:
+        case aScale:
         {
             break;
         }
         default:
         {
+            error = eInvalidAction;
             break;
         }
     }
 
-    return status;
-
+    return error;
 }

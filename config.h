@@ -4,13 +4,14 @@
 #define kTextTitle "Carcas Model Vievew"
 
 #define kBtnTextLoad "Load model"
+#define kBtnTextDraw "Draw model"
 
 #define kMsgFileNotFound  "Файл не найден!"
 #define kMsgFileCorrupted "Файл поврежден или содержит некоректные данные!"
 #define kMsgFileOutMemory "Недостаточно памяти для загрязки модели!"
 #define kMsgUnknowError   "Неизвестная ошибка, что-то пошло не так"
 
-#define kDrawPenWidth 2
+#define kDrawPenWidth 1
 #define kPadding 20
 #define kMouseSensetivity 30.0
 
