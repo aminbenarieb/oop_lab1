@@ -4,10 +4,6 @@
 #include <QGraphicsScene>
 #include "transform.h"
 
-struct FileInfo
-{
-    FILE *instance;
-};
 
 
 enum SourceType

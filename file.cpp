@@ -1,140 +1,140 @@
 #include "file.h"
 #include "memory.h"
-#include "arguments.h"
 
-
-FileInfo* fileOpen(const char *name)
+ErrorInfo loadCount(const FileInfo *fileStream, int *count)
 {
-    FileInfo *st = new FileInfo;
-    st->instance = fopen(name,"r");
-    if(st->instance != NULL)
+    return fscanf(fileStream->instance,"%d",count) == 1 ? ERROR_OK : ERROR_FILE_NOT_VALID;
+}
+ErrorInfo loadPoint(const FileInfo *fileStream, PointInfo *point)
+{
+    return fscanf(fileStream->instance, "%lf %lf %lf", &point->x, &point->y, &point->z) == 3 ? ERROR_OK : ERROR_FILE_NOT_VALID;
+}
+ErrorInfo loadEdge (const FileInfo *fileStream, EdgeInfo *edge)
+{
+    return fscanf(fileStream->instance, "%d %d", &edge->from, &edge->to) == 2 ? ERROR_OK : ERROR_FILE_NOT_VALID;
+}
+
+ErrorInfo loadPoints(const FileInfo *fileStream, PointArrayInfo *pointArrayInfo)
+{
+    ErrorInfo error = ERROR_OK;
+
+    for (int i = 0;  (i < pointArrayInfo->count) && (error == ERROR_OK);  i++)
     {
-        return st;
+        error = loadPoint( fileStream, &pointArrayInfo->vector[i] );
     }
-    fclose(st->instance);
-    delete st;
-    return NULL;
-}
 
-void fileClose(FileInfo *st)
+    return error;
+}
+ErrorInfo loadEdges(const FileInfo *fileStream, EdgeArrayInfo *edgeArrayInfo)
 {
-    if(st)
+    ErrorInfo error = ERROR_OK;
+
+    for (int i = 0;  (i < edgeArrayInfo->count) && (error == ERROR_OK);  i++)
     {
-        fclose(st->instance);
+        error = loadEdge( fileStream, &edgeArrayInfo->vector[i] );
     }
+
+    return error;
 }
 
-int read_count(int *count, const FileInfo *st)
-{
-    return fscanf(st->instance,"%d",count);
-}
+ErrorInfo handlePointArray(const FileInfo *fileStream, PointArrayInfo *pointArrayInfo){
 
-int read_vertex(PointInfo *v, const FileInfo *st)
-{
-    return fscanf(st->instance, "%lf %lf %lf", &v->x, &v->y, &v->z);
-}
-
-int read_line(Edge *l, const FileInfo *st)
-{
-    return fscanf(st->instance, "%d %d", &l->points[0], &l->points[1]);
-}
-
-ErrorInfo set_count(int *count, const FileInfo *st)
-{
-    if(read_count(count,st) != 1)
+    ErrorInfo error = loadCount(fileStream, &pointArrayInfo->count);
+    if (error == ERROR_OK)
     {
+        pointArrayInfo->vector = allocPoints(pointArrayInfo->count);
+        if (error == ERROR_OK)
+        {
+            error = loadPoints(fileStream, pointArrayInfo);
+        }
+
+        if (error != ERROR_OK)
+        {
+             deallocPoints(pointArrayInfo);
+        }
+    }
+
+    return error;
+}
+ErrorInfo handleEdgeArray(const FileInfo *fileStream, EdgeArrayInfo *edgeArrayInfo){
+
+    ErrorInfo error = loadCount(fileStream, &edgeArrayInfo->count );
+    if (error == ERROR_OK)
+    {
+        edgeArrayInfo->vector = allocEdges(edgeArrayInfo->count);
+        if (error == ERROR_OK)
+        {
+            error = loadEdges(fileStream, edgeArrayInfo);
+        }
+
+        if (error != ERROR_OK)
+        {
+             deallocEdges(edgeArrayInfo);
+        }
+    }
+
+    return error;
+}
+
+bool edgeIsValid(const EdgeInfo *edge, const int pointCount)
+{
+    return (edge->from-1 < pointCount) && (edge->to-1  < pointCount);
+}
+ErrorInfo comparePointWithEdges( PointArrayInfo *pointArrayInfo, EdgeArrayInfo *edgeArrayInfo)
+{
+    int i;
+    for(i = 0; i < edgeArrayInfo->count && edgeIsValid(edgeArrayInfo->vector+i, pointArrayInfo->count); i++);
+
+    // in case edge index beyond point's count
+    if(i < edgeArrayInfo->count)
+    {
+        deallocEdges(edgeArrayInfo);
+        deallocPoints(pointArrayInfo);
         return ERROR_FILE_NOT_VALID;
     }
 
     return ERROR_OK;
 }
 
-ErrorInfo newVertexes(PointArrayInfo *vertexes, int count)
+ErrorInfo fileOpen(FileInfo *&fileStream, const char *fileName)
 {
-    if((vertexes->vector = allocPoints(count)) == NULL)
+    fileStream = new FileInfo;
+
+    if( fileStream == NULL)
     {
         return ERROR_MEMORY;
     }
 
-    return ERROR_OK;
-}
-
-/* Функция считывания вершин */
-ErrorInfo set_vertexes(PointArrayInfo *vertexes, const FileInfo *st)
-{
-    ErrorInfo e = ERROR_OK;
-
-    if((e = set_count(&vertexes->count,st)) != ERROR_OK)
-        return e;
-
-
-    if((e = newVertexes(vertexes,vertexes->count)) != ERROR_OK)
-        return e;
-
-
-    int i;
-    for(i = 0; i < vertexes->count && (read_vertex((vertexes->vector+i),st) == 3); i++);
-    if(i < vertexes->count)
+    if ( (fileStream->instance = fopen(fileName,"r")) == NULL)
     {
-        deallocPoints(vertexes);
-        e = ERROR_FILE_NOT_VALID;
-    }
-
-    return e;
-}
-
-
-ErrorInfo newLines(EdgeArrayInfo *lines, int count)
-{
-    if((lines->lines = allocEdges(count)) == NULL)
-    {
-        return ERROR_MEMORY;
+        return ERROR_FILE_NOT_EXIST;
     }
 
     return ERROR_OK;
 }
-
-bool correct_line(const EdgeArrayInfo *lines, int index, const PointArrayInfo *vertexes)
+ErrorInfo fileLoadModel(Model *model, const FileInfo *fileStream)
 {
-    return ((get_line(lines,index)->points[0]-1 < vertexes->count) && (get_line(lines,index)->points[1]-1  < vertexes->count));
-}
+    ErrorInfo error = ERROR_OK;
 
-/* Функция считывания линий*/
-ErrorInfo set_lines(EdgeArrayInfo *lines, PointArrayInfo *vertexes, const FileInfo *st)
-{
-    ErrorInfo e = ERROR_OK;
-
-    if((e = set_count(&lines->count,st)) != ERROR_OK)
-        return e;
-
-
-    if((e = newLines(lines,lines->count)) != ERROR_OK)
+    if((error = handlePointArray(fileStream, &model->pointArrayInfo)) != ERROR_OK)
     {
-        deallocPoints(vertexes);
-        return e;
+        return error;
     }
 
-    int i;
-    for(i = 0; i < lines->count && (read_line((lines->lines+i),st) == 2)
-                    && correct_line(lines,i,vertexes); i++);
-    if(i < lines->count)
+    if((error = handleEdgeArray(fileStream, &model->edgeArrayInfo)) != ERROR_OK)
     {
-        deallocEdges(lines);
-        deallocPoints(vertexes);
-        e = ERROR_FILE_NOT_VALID;
+        return error;
     }
 
-    return e;
+    error = comparePointWithEdges(&model->pointArrayInfo, &model->edgeArrayInfo);
+
+    return error;
 }
-
-/* Функция считывания модели */
-ErrorInfo set_model(Model *model, const FileInfo *st)
+void fileClose(FileInfo *fileStream)
 {
-    ErrorInfo e = ERROR_OK;
-    if((e = set_vertexes(&model->pointArrayInfo, st)) != ERROR_OK)
-        return e;
-    if((e = set_lines(&model->edgeArrayInfo, &model->pointArrayInfo, st)) != ERROR_OK)
-        return e;
-
-    return e;
+    if(fileStream)
+    {
+        fclose(fileStream->instance);
+        delete fileStream;
+    }
 }

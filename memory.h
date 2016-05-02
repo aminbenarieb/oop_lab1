@@ -4,7 +4,7 @@
 #include "model.h"
 
 PointInfo* allocPoints(int);
-Edge*      allocEdges(int);
+EdgeInfo*  allocEdges(int);
 Model      allocModel(void);
 
 void       deallocPoints(PointArrayInfo*);

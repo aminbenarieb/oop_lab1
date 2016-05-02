@@ -4,14 +4,14 @@ PointInfo* allocPoints(int count)
 {
     return new PointInfo[count];
 }
-Edge* allocEdges(int count)
+EdgeInfo* allocEdges(int count)
 {
-    return new Edge[count];
+    return new EdgeInfo[count];
 }
 Model allocModel(void)
 {
     Model model;
-    model.edgeArrayInfo.lines = NULL;
+    model.edgeArrayInfo.vector = NULL;
     model.edgeArrayInfo.count = 0;
     model.pointArrayInfo.vector = NULL;
     model.pointArrayInfo.count = 0;
@@ -29,10 +29,10 @@ void deallocPoints(PointArrayInfo *pointVectorInfo)
 }
 void deallocEdges(EdgeArrayInfo *edgeArrayInfo)
 {
-    if(edgeArrayInfo->lines)
+    if(edgeArrayInfo->vector)
     {
-        delete [] edgeArrayInfo->lines;
-        edgeArrayInfo->lines = NULL;
+        delete [] edgeArrayInfo->vector;
+        edgeArrayInfo->vector = NULL;
     }
     edgeArrayInfo->count = 0;
 }

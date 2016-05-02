@@ -1,20 +1,17 @@
 #ifndef LINE_H
 #define LINE_H
-#include "arguments.h"
-#include "point.h"
 
-typedef struct Line_
+struct EdgeInfo
 {
-    int points[2];
-}Edge;
+    int from;
+    int to;
+};
 
-typedef struct Lines_
+struct EdgeArrayInfo
 {
     int count;
-    Edge* lines;
-}EdgeArrayInfo;
+    EdgeInfo* vector;
+};
 
-const Edge* get_line(const EdgeArrayInfo*, int);
-void draw_lines(ArgumentInfo, const PointArrayInfo*, const EdgeArrayInfo*);
 
 #endif // LINE_H

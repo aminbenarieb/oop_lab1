@@ -3,9 +3,14 @@
 
 #include "model.h"
 
-ErrorInfo set_model(Model *, const FileInfo*);
+struct FileInfo
+{
+    FILE *instance;
+};
 
-FileInfo* fileOpen(const char *);
-void fileClose(FileInfo*);
+
+ErrorInfo fileOpen(FileInfo *&, const char *);
+ErrorInfo fileLoadModel(Model *, const FileInfo*);
+void      fileClose(FileInfo*);
 
 #endif // FILE_H

@@ -19,7 +19,7 @@ SOURCES += main.cpp\
     model.cpp \
     handler.cpp \
     transform.cpp \
-    edge.cpp
+    draw.cpp
 
 HEADERS  += mainwindow.h \
     arguments.h \
@@ -30,6 +30,7 @@ HEADERS  += mainwindow.h \
     error.h \
     transform.h \
     point.h \
-    edge.h
+    edge.h \
+    draw.h
 
 FORMS    += mainwindow.ui

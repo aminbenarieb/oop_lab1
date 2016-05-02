@@ -33,8 +33,6 @@ void MainWindow::redrawScreen(ActionInfo *action, ArgumentInfo *argument)
     SceneInfo scene = { .instance = this->scene };
     argument->scene = scene;
 }
-
-
 void MainWindow::showErrorMessage(ErrorInfo error)
 {
     switch(error)
@@ -72,8 +70,6 @@ void MainWindow::showErrorMessage(ErrorInfo error)
         }
     }
 }
-
-
 void MainWindow::keyPressEvent(QKeyEvent *k)
 {
     ActionInfo act;
@@ -102,56 +98,56 @@ void MainWindow::keyPressEvent(QKeyEvent *k)
         case Qt::Key_Q:
         {
             arg.modification.type = TRANSFORM_ROTATE_Z;
-            arg.modification.delta = (-1);//*ui->lineEdit->text().toDouble();
+            arg.modification.delta = (-2);
             break;
         }
 
         case Qt::Key_E:
         {
             arg.modification.type = TRANSFORM_ROTATE_Z;
-            arg.modification.delta = 1;//ui->lineEdit->text().toDouble();
+            arg.modification.delta = 2;
            break;
         }
 
         case Qt::Key_S:
         {
             arg.modification.type = TRANSFORM_ROTATE_X;
-            arg.modification.delta = (-1);//*ui->lineEdit->text().toDouble();
+            arg.modification.delta = (-2);
             break;
         }
 
         case Qt::Key_W:
         {
             arg.modification.type = TRANSFORM_ROTATE_X;
-            arg.modification.delta = 1;//ui->lineEdit->text().toDouble();
+            arg.modification.delta = 2;
             break;
         }
 
         case Qt::Key_A:
         {
             arg.modification.type = TRANSFORM_ROTATE_Y;
-            arg.modification.delta = (-1);//*ui->lineEdit->text().toDouble();
+            arg.modification.delta = (-2);
             break;
         }
 
         case Qt::Key_D:
         {
             arg.modification.type = TRANSFORM_ROTATE_Y;
-            arg.modification.delta = 1;//ui->lineEdit->text().toDouble();
+            arg.modification.delta = 2;
             break;
         }
 
         case Qt::Key_Z:
         {
             arg.modification.type = TRANSFORM_SCALE;
-            arg.modification.delta = 1.00 + 0.01;// + (0.01 * (ui->lineEdit_2->text().toInt()));
+            arg.modification.delta = 1.00 + 0.1;
             break;
         }
 
         case Qt::Key_X:
         {
             arg.modification.type = TRANSFORM_SCALE;
-            arg.modification.delta = 1.00 - 0.01;// - (0.01 * (ui->lineEdit_2->text().toInt()));
+            arg.modification.delta = 1.00 - 0.1;
             break;
         }
 

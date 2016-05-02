@@ -1,31 +1,27 @@
 #include "model.h"
+
 #include "file.h"
 #include "memory.h"
+#include "draw.h"
 
 bool modelExist(const Model *model)
 {
-    return (model->edgeArrayInfo.lines && model->pointArrayInfo.vector);
+    return (model->edgeArrayInfo.vector && model->pointArrayInfo.vector);
 }
 ErrorInfo modelFromFile(Model *model, const char *fileName)
 {
     ErrorInfo error = ERROR_OK;
     FileInfo *fileStream = NULL;
 
-    if( (fileStream = fileOpen(fileName)) != NULL)
+    if( ( error = fileOpen(fileStream, fileName) ) == ERROR_OK)
     {
         Model bufferModel = allocModel();
-
-        error = set_model(&bufferModel, fileStream);
-        if( error == ERROR_OK)
+        if( ( error = fileLoadModel(&bufferModel, fileStream) ) == ERROR_OK)
         {
             deallocModel(model);
             *model = bufferModel;
         }
         fileClose(fileStream);
-    }
-    else
-    {
-        error = ERROR_FILE_NOT_EXIST;
     }
 
     return error;
@@ -68,7 +64,7 @@ ErrorInfo modelDraw(Model *model, ArgumentInfo argument)
 
     if(modelExist(model))
     {
-        draw_lines(argument,&model->pointArrayInfo,&model->edgeArrayInfo);
+        drawEdges(argument,&model->pointArrayInfo,&model->edgeArrayInfo);
     }
     else
     {
