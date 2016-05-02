@@ -1,33 +1,17 @@
 #ifndef HANDLER_H
 #define HANDLER_H
 
-#include "errorinfo.h"
-
-#include "canvashandler.h"
-#include "steamhandler.h"
-#include "scenehandler.h"
-#include "modelhandler.h"
-
+#include "error.h"
+#include "arguments.h"
 
 enum ActionInfo
 {
-    aLoad,
-    aMove,
-    aRotate,
-    aScale,
-    aDraw
+    ACTION_LOAD,
+    ACTION_CHANGE,
+    ACTION_DRAW,
+    ACTION_QUIT
 };
 
-
-union ParamInfo
-{
-    TransformInfo transformInfo;   // transform data (scaling, shifting, rotating)
-    StreamInfo stream;             // input data stream
-    CanvasInfo canvasInfo;         // containter with canvas
-};
-
-
-ErrorInfo handle(ActionInfo action, ParamInfo param);
-
+ErrorInfo handler(ActionInfo, ArgumentInfo);
 
 #endif // HANDLER_H

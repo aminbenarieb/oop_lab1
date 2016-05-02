@@ -1,39 +1,36 @@
 #include "handler.h"
+#include "model.h"
+#include "memory.h"
 
-#include "QDebug"
-
-ErrorInfo handle(ActionInfo action, ParamInfo param)
+ErrorInfo handler(ActionInfo action, ArgumentInfo argument)
 {
-    ErrorInfo error = eOk;
-    static ModelInfo *model = modelinfo_alloc();
+    static Model model = init_model();
 
-    switch (action)
+    ErrorInfo error = ERROR_OK;
+
+    switch(action)
     {
-        case aLoad:
+        case ACTION_CHANGE:
         {
-            error = stream_load_model(model, &(param.stream) );
+            error = change_model(&model, argument);
             break;
         }
-        case aDraw:
+
+        case ACTION_LOAD:
         {
-            error = scene_draw(param.canvasInfo, model, param.transformInfo);
+            error = load_model(&model,argument);
             break;
         }
-        case aMove:
+
+        case ACTION_DRAW:
         {
+            error = draw_model(&model, argument);
             break;
         }
-        case aRotate:
+
+        case ACTION_QUIT:
         {
-            break;
-        }
-        case aScale:
-        {
-            break;
-        }
-        default:
-        {
-            error = eInvalidAction;
+            delete_model(&model);
             break;
         }
     }
