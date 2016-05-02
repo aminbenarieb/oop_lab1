@@ -5,7 +5,6 @@
 #include "transform.h"
 
 
-
 enum SourceType
 {
     SOURCE_FILE
@@ -26,7 +25,7 @@ struct SceneInfo
 union ArgumentInfo
 {
     StreamInfo *stream;
-    SceneInfo   scene;
+    SceneInfo  *scene;
     TransformInfo modification;
 };
 

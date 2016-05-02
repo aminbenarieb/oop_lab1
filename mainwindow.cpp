@@ -31,7 +31,7 @@ void MainWindow::redrawScreen(ActionInfo *action, ArgumentInfo *argument)
     this->scene->clear();
     *action = ACTION_DRAW;
     SceneInfo scene = { .instance = this->scene };
-    argument->scene = scene;
+    argument->scene = &scene;
 }
 void MainWindow::showErrorMessage(ErrorInfo error)
 {

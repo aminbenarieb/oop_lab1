@@ -2,7 +2,7 @@
 
 void drawEdge(ArgumentInfo argument, const PointInfo *fromPoint, const PointInfo *toPoint)
 {
-    argument.scene.instance->addLine(fromPoint->x, fromPoint->y, toPoint->x, toPoint->y);
+    argument.scene->instance->addLine(fromPoint->x, fromPoint->y, toPoint->x, toPoint->y);
 }
 
 void drawEdges(ArgumentInfo argument, const PointArrayInfo *vertexes, const EdgeArrayInfo *edgeArrayInfo)
