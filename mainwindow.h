@@ -21,7 +21,6 @@ public:
 
 private:
     void quitApp();
-    void loadFile();
 
 private slots:
     void redrawScreen(ActionInfo*, ArgumentInfo*);

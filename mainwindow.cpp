@@ -34,46 +34,19 @@ void MainWindow::redrawScreen(ActionInfo *action, ArgumentInfo *argument)
     argument->scene = scene;
 }
 
-void MainWindow::loadFile()
-{
-    ArgumentInfo argument;
-
-    StreamInfo stream;
-    stream.sourceName = FILENAME;
-    if(stream.sourceName == NULL)
-    {
-        return;
-    }
-
-    stream.source = SOURCE_FILE;
-    argument.stream = &stream;
-    ActionInfo action = ACTION_LOAD;
-
-    ErrorInfo e = handler(action,argument);
-
-    if(e != ERROR_OK)
-    {
-        showErrorMessage(e);
-        return;
-    }
-
-    redrawScreen(&action,&argument);
-    handler(action,argument);
-}
-
 
 void MainWindow::showErrorMessage(ErrorInfo error)
 {
     switch(error)
     {
 
-        case ERROR_FILE_EXIST:
+        case ERROR_FILE_NOT_EXIST:
         {
             QMessageBox::warning(this,"Error", "Not able to open FILE!");
             break;
         }
 
-        case ERROR_FILE_VALID:
+        case ERROR_FILE_NOT_VALID:
         {
             QMessageBox::warning(this,"Error", "File consists of wrong input data!");
             break;
@@ -120,7 +93,7 @@ void MainWindow::keyPressEvent(QKeyEvent *k)
                 return;
             }
 
-            stream.source = SOURCE_FILE;
+            stream.sourceType = SOURCE_FILE;
             arg.stream = &stream;
             act = ACTION_LOAD;
 

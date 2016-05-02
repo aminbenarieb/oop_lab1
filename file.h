@@ -2,10 +2,10 @@
 #define FILE_H
 
 #include "model.h"
-ErrorInfo set_model(Model *, const FileInfo*q);
 
-FileInfo* source_open(const char *);
-void source_close(FileInfo*);
-const char *get_name(void);
+ErrorInfo set_model(Model *, const FileInfo*);
+
+FileInfo* fileOpen(const char *);
+void fileClose(FileInfo*);
 
 #endif // FILE_H

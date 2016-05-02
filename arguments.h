@@ -16,7 +16,7 @@ enum SourceType
 };
 struct StreamInfo
 {
-    SourceType source;
+    SourceType sourceType;
     const char *sourceName;
 };
 

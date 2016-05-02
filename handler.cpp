@@ -1,10 +1,9 @@
 #include "handler.h"
-#include "model.h"
 #include "memory.h"
 
 ErrorInfo handler(ActionInfo action, ArgumentInfo argument)
 {
-    static Model model = init_model();
+    static Model model = allocModel();
 
     ErrorInfo error = ERROR_OK;
 
@@ -12,25 +11,25 @@ ErrorInfo handler(ActionInfo action, ArgumentInfo argument)
     {
         case ACTION_CHANGE:
         {
-            error = change_model(&model, argument);
+            error = modelTransform(&model, argument);
             break;
         }
 
         case ACTION_LOAD:
         {
-            error = load_model(&model,argument);
+            error = modelLoad(&model,argument);
             break;
         }
 
         case ACTION_DRAW:
         {
-            error = draw_model(&model, argument);
+            error = modelDraw(&model, argument);
             break;
         }
 
         case ACTION_QUIT:
         {
-            delete_model(&model);
+            deallocModel(&model);
             break;
         }
     }

@@ -3,10 +3,12 @@
 
 #include "model.h"
 
-PointInfo* new_vertexes(int);
-Line* new_lines(int);
-void delete_vertexes(PointArrayInfo*);
-void delete_lines(Lines*);
-void delete_model(Model*);
+PointInfo* allocPoints(int);
+Edge*      allocEdges(int);
+Model      allocModel(void);
+
+void       deallocPoints(PointArrayInfo*);
+void       deallocEdges(EdgeArrayInfo*);
+void       deallocModel(Model*);
 
 #endif // MEMORY_H

@@ -1,39 +1,43 @@
-/* Реализация функций работы с памятью */
-
 #include "memory.h"
 
-PointInfo* new_vertexes(int count)
+PointInfo* allocPoints(int count)
 {
     return new PointInfo[count];
 }
-
-Line* new_lines(int count)
+Edge* allocEdges(int count)
 {
-    return new Line[count];
+    return new Edge[count];
+}
+Model allocModel(void)
+{
+    Model model;
+    model.edgeArrayInfo.lines = NULL;
+    model.edgeArrayInfo.count = 0;
+    model.pointArrayInfo.vector = NULL;
+    model.pointArrayInfo.count = 0;
+    return model;
 }
 
-void delete_vertexes(PointArrayInfo *v)
+void deallocPoints(PointArrayInfo *pointVectorInfo)
 {
-    if(v->vector)
+    if(pointVectorInfo->vector)
     {
-        delete [] v->vector;
-        v->vector = NULL;
+        delete [] pointVectorInfo->vector;
+        pointVectorInfo->vector = NULL;
     }
-    v->count = 0;
+    pointVectorInfo->count = 0;
 }
-
-void delete_lines(Lines *l)
+void deallocEdges(EdgeArrayInfo *edgeArrayInfo)
 {
-    if(l->lines)
+    if(edgeArrayInfo->lines)
     {
-        delete [] l->lines;
-        l->lines = NULL;
+        delete [] edgeArrayInfo->lines;
+        edgeArrayInfo->lines = NULL;
     }
-    l->count = 0;
+    edgeArrayInfo->count = 0;
 }
-
-void delete_model(Model *m)
+void deallocModel(Model *model)
 {
-    delete_lines(&m->field_l);
-    delete_vertexes(&m->field_v);
+    deallocEdges(&model->edgeArrayInfo);
+    deallocPoints(&model->pointArrayInfo);
 }

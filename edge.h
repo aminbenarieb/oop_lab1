@@ -6,15 +6,15 @@
 typedef struct Line_
 {
     int points[2];
-}Line;
+}Edge;
 
 typedef struct Lines_
 {
     int count;
-    Line* lines;
-}Lines;
+    Edge* lines;
+}EdgeArrayInfo;
 
-const Line* get_line(const Lines*, int);
-void draw_lines(ArgumentInfo, const PointArrayInfo*, const Lines*);
+const Edge* get_line(const EdgeArrayInfo*, int);
+void draw_lines(ArgumentInfo, const PointArrayInfo*, const EdgeArrayInfo*);
 
 #endif // LINE_H

@@ -15,21 +15,21 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     file.cpp \
-    line.cpp \
     memory.cpp \
     model.cpp \
     handler.cpp \
-    transform.cpp
+    transform.cpp \
+    edge.cpp
 
 HEADERS  += mainwindow.h \
     arguments.h \
     file.h \
-    line.h \
     memory.h \
     model.h \
     handler.h \
     error.h \
     transform.h \
-    point.h
+    point.h \
+    edge.h
 
 FORMS    += mainwindow.ui

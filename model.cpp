@@ -1,90 +1,80 @@
-/* Реализация функций работы с моделью*/
-
 #include "model.h"
 #include "file.h"
 #include "memory.h"
 
-/* Инициализация модели*/
-Model init_model(void)
+bool modelExist(const Model *model)
 {
-    Model model;
-    model.field_l.lines = NULL;
-    model.field_l.count = 0;
-    model.field_v.vector = NULL;
-    model.field_v.count = 0;
-    return model;
+    return (model->edgeArrayInfo.lines && model->pointArrayInfo.vector);
 }
-
-/* Проверка существования модели */
-bool model_exist(const Model *model)
+ErrorInfo modelFromFile(Model *model, const char *fileName)
 {
-    if(model->field_l.lines && model->field_v.vector)
-        return true;
-    return false;
-}
+    ErrorInfo error = ERROR_OK;
+    FileInfo *fileStream = NULL;
 
-/* Изменение модели */
-ErrorInfo change_model(Model *model, ArgumentInfo argument)
-{
-    if(!model_exist(model))
+    if( (fileStream = fileOpen(fileName)) != NULL)
     {
-        return ERROR_NOT_INIT;
+        Model bufferModel = allocModel();
+
+        error = set_model(&bufferModel, fileStream);
+        if( error == ERROR_OK)
+        {
+            deallocModel(model);
+            *model = bufferModel;
+        }
+        fileClose(fileStream);
+    }
+    else
+    {
+        error = ERROR_FILE_NOT_EXIST;
     }
 
-    transformPointVector(&model->field_v,argument.modification);
-    return ERROR_OK;
+    return error;
 }
 
-/* Рисование модели */
-ErrorInfo draw_model(Model *model, ArgumentInfo argument)
+ErrorInfo modelLoad(Model *model, ArgumentInfo argument)
 {
-    if(!model_exist(model))
-    {
-        return ERROR_NOT_INIT;
-    }
-
-    draw_lines(argument,&model->field_v,&model->field_l);
-    return ERROR_OK;
-}
-
-/* Загрузка модели из файла */
-ErrorInfo load_from_file(Model *model,const char *name)
-{
-    ErrorInfo e = ERROR_OK;
-
-    FileInfo *st = NULL;
-    if((st = source_open(name)) == NULL)
-    {
-        return ERROR_FILE_EXIST;
-    }
-
-    Model cur_model = init_model();
-
-    if((e = set_model(&cur_model,st)) == ERROR_OK)
-    {
-        delete_model(model);
-        *model = cur_model;
-    }
-    source_close(st);
-    return e;
-}
-
-/* Загрузка модели */
-ErrorInfo load_model(Model *model, ArgumentInfo argument)
-{
-    ErrorInfo e = ERROR_OK;
-
+    ErrorInfo error = ERROR_OK;
     StreamInfo *stream = argument.stream;
 
-    switch(stream->source)
+    switch(stream->sourceType)
     {
         case SOURCE_FILE:
         {
-            e = load_from_file(model,stream->sourceName);
+            error = modelFromFile(model, stream->sourceName);
             break;
         }
     }
 
-    return e;
+    return error;
+}
+ErrorInfo modelTransform(Model *model, ArgumentInfo argument)
+{
+    ErrorInfo error = ERROR_OK;
+
+    if(modelExist(model))
+    {
+        transformPointVector(&model->pointArrayInfo,argument.modification);
+    }
+    else
+    {
+        error =  ERROR_NOT_INIT;
+    }
+
+    return error;
+}
+ErrorInfo modelDraw(Model *model, ArgumentInfo argument)
+{
+    ErrorInfo error = ERROR_OK;
+
+    if(modelExist(model))
+    {
+        draw_lines(argument,&model->pointArrayInfo,&model->edgeArrayInfo);
+    }
+    else
+    {
+        error =  ERROR_NOT_INIT;
+    }
+
+    return error;
 }
 
