@@ -1,5 +1,5 @@
-#ifndef LINE_H
-#define LINE_H
+#ifndef EDGE_H
+#define EDGE_H
 
 struct EdgeInfo
 {
@@ -14,4 +14,4 @@ struct EdgeArrayInfo
 };
 
 
-#endif // LINE_H
+#endif // EDGE_H

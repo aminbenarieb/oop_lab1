@@ -68,7 +68,6 @@ void scaleVector(PointArrayInfo *v, TransformInfo transformInfo)
     }
 }
 
-
 void transformPointVector(PointArrayInfo *pointVectorInfo, TransformInfo transformInfo)
 {
     switch(transformInfo.type)

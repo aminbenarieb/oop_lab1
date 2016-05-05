@@ -20,20 +20,14 @@ Model allocModel(void)
 
 void deallocPoints(PointArrayInfo *pointVectorInfo)
 {
-    if(pointVectorInfo->vector)
-    {
-        delete [] pointVectorInfo->vector;
-        pointVectorInfo->vector = NULL;
-    }
+    delete [] pointVectorInfo->vector;
+    pointVectorInfo->vector = NULL;
     pointVectorInfo->count = 0;
 }
 void deallocEdges(EdgeArrayInfo *edgeArrayInfo)
 {
-    if(edgeArrayInfo->vector)
-    {
-        delete [] edgeArrayInfo->vector;
-        edgeArrayInfo->vector = NULL;
-    }
+    delete [] edgeArrayInfo->vector;
+    edgeArrayInfo->vector = NULL;
     edgeArrayInfo->count = 0;
 }
 void deallocModel(Model *model)

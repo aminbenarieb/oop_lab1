@@ -1,5 +1,5 @@
-#ifndef VERTEX_H
-#define VERTEX_H
+#ifndef POINT_H
+#define POINT_H
 
 struct PointInfo
 {
@@ -12,4 +12,4 @@ struct PointArrayInfo
 };
 
 
-#endif // VERTEX_H
+#endif // POINT_H
