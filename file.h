@@ -2,6 +2,7 @@
 #define FILE_H
 
 #include "model.h"
+#include <iostream>
 
 struct FileInfo
 {

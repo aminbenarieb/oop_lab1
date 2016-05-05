@@ -11,5 +11,12 @@ struct PointArrayInfo
     PointInfo *vector;
 };
 
+void rotatePointX(PointInfo *v, double angle);
+void rotatePointY(PointInfo *v, double angle);
+void rotatePointZ(PointInfo *v, double angle);
+void scalePoint(PointInfo *v, double scale);
+
+PointInfo* allocPoints(int);
+void       deallocPoints(PointArrayInfo*);
 
 #endif // POINT_H

@@ -1,36 +1,14 @@
 #include "model.h"
 
-#include "file.h"
-#include "memory.h"
-#include "draw.h"
 
 bool modelExist(const Model *model)
 {
     return (model->edgeArrayInfo.vector && model->pointArrayInfo.vector);
 }
-ErrorInfo modelFromFile(Model *model, const char *fileName)
+
+ErrorInfo modelLoad(Model *model, StreamInfo *stream)
 {
     ErrorInfo error = ERROR_OK;
-    FileInfo *fileStream = NULL;
-
-    if( ( error = fileOpen(fileStream, fileName) ) == ERROR_OK)
-    {
-        Model bufferModel = allocModel();
-        if( ( error = fileLoadModel(&bufferModel, fileStream) ) == ERROR_OK)
-        {
-            deallocModel(model);
-            *model = bufferModel;
-        }
-        fileClose(fileStream);
-    }
-
-    return error;
-}
-
-ErrorInfo modelLoad(Model *model, ArgumentInfo argument)
-{
-    ErrorInfo error = ERROR_OK;
-    StreamInfo *stream = argument.stream;
 
     switch(stream->sourceType)
     {
@@ -43,13 +21,13 @@ ErrorInfo modelLoad(Model *model, ArgumentInfo argument)
 
     return error;
 }
-ErrorInfo modelTransform(Model *model, ArgumentInfo argument)
+ErrorInfo modelTransform(Model *model, TransformInfo *modification)
 {
     ErrorInfo error = ERROR_OK;
 
     if(modelExist(model))
     {
-        transformPointVector(&model->pointArrayInfo,argument.modification);
+        transformPointVector(&model->pointArrayInfo, *modification);
     }
     else
     {
@@ -58,13 +36,13 @@ ErrorInfo modelTransform(Model *model, ArgumentInfo argument)
 
     return error;
 }
-ErrorInfo modelDraw(Model *model, ArgumentInfo argument)
+ErrorInfo modelDraw(Model *model, SceneInfo *scene)
 {
     ErrorInfo error = ERROR_OK;
 
     if(modelExist(model))
     {
-        drawEdges(argument,&model->pointArrayInfo,&model->edgeArrayInfo);
+        drawEdges(scene, &model->pointArrayInfo, &model->edgeArrayInfo);
     }
     else
     {
@@ -72,5 +50,20 @@ ErrorInfo modelDraw(Model *model, ArgumentInfo argument)
     }
 
     return error;
+}
+
+Model modelAlloc(void)
+{
+    Model model;
+    model.edgeArrayInfo.vector = NULL;
+    model.edgeArrayInfo.count = 0;
+    model.pointArrayInfo.vector = NULL;
+    model.pointArrayInfo.count = 0;
+    return model;
+}
+void  modelDealloc(Model *model)
+{
+    deallocEdges(&model->edgeArrayInfo);
+    deallocPoints(&model->pointArrayInfo);
 }
 

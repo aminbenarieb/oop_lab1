@@ -2,7 +2,10 @@
 #define HANDLER_H
 
 #include "error.h"
-#include "arguments.h"
+
+#include "draw.h"
+#include "transform.h"
+#include "stream.h"
 
 enum ActionInfo
 {
@@ -10,6 +13,13 @@ enum ActionInfo
     ACTION_CHANGE,
     ACTION_DRAW,
     ACTION_QUIT
+};
+
+union ArgumentInfo
+{
+    StreamInfo *stream;
+    SceneInfo  *scene;
+    TransformInfo modification;
 };
 
 ErrorInfo handler(ActionInfo, ArgumentInfo);

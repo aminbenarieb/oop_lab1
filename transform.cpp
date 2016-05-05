@@ -1,43 +1,4 @@
 #include "transform.h"
-#include "math.h"
-
-double degreeToRadians(double degree)
-{
-    return (degree * M_PI) / 180.0;
-}
-
-void rotatePointX(PointInfo *v, double angle)
-{
-    double y = v->y;
-    double teta = degreeToRadians(angle);
-
-    v->y = (v->y)*cos(teta) - (v->z)*sin(teta);
-    v->z = (v->z)*cos(teta) + (y)*sin(teta);
-}
-void rotatePointY(PointInfo *v, double angle)
-{
-    double z = v->z;
-    double teta = degreeToRadians(angle);
-
-    v->z = (v->z)*cos(teta) - (v->x)*sin(teta);
-    v->x = (v->x)*cos(teta) + (z)*sin(teta);
-
-}
-void rotatePointZ(PointInfo *v, double angle)
-{
-    double x = v->x;
-    double teta = degreeToRadians(angle);
-
-    v->x = (v->x)*cos(teta) - (v->y)*sin(teta);
-    v->y = (v->y)*cos(teta) + (x)*sin(teta);
-
-}
-void scalePoint(PointInfo *v, double scale)
-{
-    v->x *= scale;
-    v->y *= scale;
-    v->z *= scale;
-}
 
 void rotateVectorX(PointArrayInfo *v, TransformInfo transformInfo)
 {

@@ -3,8 +3,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "file.h"
+#include "math.h"
 
 #define FILENAME "/Users/aminbenarieb/GitHub/uni/oop/lab1/vaza.txt"
+#define kDegreeToRadians(degree) ( (degree * M_PI) / 180.0  )
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -98,42 +100,42 @@ void MainWindow::keyPressEvent(QKeyEvent *k)
         case Qt::Key_Q:
         {
             arg.modification.type = TRANSFORM_ROTATE_Z;
-            arg.modification.delta = (-2);
+            arg.modification.delta = kDegreeToRadians(-2);
             break;
         }
 
         case Qt::Key_E:
         {
             arg.modification.type = TRANSFORM_ROTATE_Z;
-            arg.modification.delta = 2;
+            arg.modification.delta = kDegreeToRadians(2);
            break;
         }
 
         case Qt::Key_S:
         {
             arg.modification.type = TRANSFORM_ROTATE_X;
-            arg.modification.delta = (-2);
+            arg.modification.delta = kDegreeToRadians(-2);
             break;
         }
 
         case Qt::Key_W:
         {
             arg.modification.type = TRANSFORM_ROTATE_X;
-            arg.modification.delta = 2;
+            arg.modification.delta = kDegreeToRadians(2);
             break;
         }
 
         case Qt::Key_A:
         {
             arg.modification.type = TRANSFORM_ROTATE_Y;
-            arg.modification.delta = (-2);
+            arg.modification.delta = kDegreeToRadians(-2);
             break;
         }
 
         case Qt::Key_D:
         {
             arg.modification.type = TRANSFORM_ROTATE_Y;
-            arg.modification.delta = 2;
+            arg.modification.delta = kDegreeToRadians(2);
             break;
         }
 
