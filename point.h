@@ -16,7 +16,7 @@ void rotatePointY(PointInfo *v, double angle);
 void rotatePointZ(PointInfo *v, double angle);
 void scalePoint(PointInfo *v, double scale);
 
-PointInfo* allocPoints(int);
-void       deallocPoints(PointArrayInfo*);
+PointInfo* pointsAlloc(int);
+void       pointsDealloc(PointArrayInfo*);
 
 #endif // POINT_H

@@ -1,75 +1,74 @@
 #include "file.h"
-#include "memory.h"
 
-ErrorInfo loadCount(const FileInfo *fileStream, int *count)
+ErrorInfo loadCount(int *count, const FileInfo *fileStream)
 {
     return fscanf(fileStream->instance,"%d",count) == 1 ? ERROR_OK : ERROR_FILE_NOT_VALID;
 }
-ErrorInfo loadPoint(const FileInfo *fileStream, PointInfo *point)
+ErrorInfo loadPoint(PointInfo *point, const FileInfo *fileStream)
 {
     return fscanf(fileStream->instance, "%lf %lf %lf", &point->x, &point->y, &point->z) == 3 ? ERROR_OK : ERROR_FILE_NOT_VALID;
 }
-ErrorInfo loadEdge (const FileInfo *fileStream, EdgeInfo *edge)
+ErrorInfo loadEdge (EdgeInfo *edge, const FileInfo *fileStream)
 {
     return fscanf(fileStream->instance, "%d %d", &edge->from, &edge->to) == 2 ? ERROR_OK : ERROR_FILE_NOT_VALID;
 }
 
-ErrorInfo loadPoints(const FileInfo *fileStream, PointArrayInfo *pointArrayInfo)
+ErrorInfo loadPoints( PointArrayInfo *pointArrayInfo, const FileInfo *fileStream)
 {
     ErrorInfo error = ERROR_OK;
 
     for (int i = 0;  (i < pointArrayInfo->count) && (error == ERROR_OK);  i++)
     {
-        error = loadPoint( fileStream, &pointArrayInfo->vector[i] );
+        error = loadPoint( &pointArrayInfo->vector[i], fileStream);
     }
 
     return error;
 }
-ErrorInfo loadEdges(const FileInfo *fileStream, EdgeArrayInfo *edgeArrayInfo)
+ErrorInfo loadEdges( EdgeArrayInfo *edgeArrayInfo, const FileInfo *fileStream)
 {
     ErrorInfo error = ERROR_OK;
 
     for (int i = 0;  (i < edgeArrayInfo->count) && (error == ERROR_OK);  i++)
     {
-        error = loadEdge( fileStream, &edgeArrayInfo->vector[i] );
+        error = loadEdge( &edgeArrayInfo->vector[i], fileStream);
     }
 
     return error;
 }
 
-ErrorInfo handlePointArray(const FileInfo *fileStream, PointArrayInfo *pointArrayInfo){
+ErrorInfo handlePointArray(PointArrayInfo *pointArrayInfo, const FileInfo *fileStream){
 
-    ErrorInfo error = loadCount(fileStream, &pointArrayInfo->count);
+    ErrorInfo error = loadCount(&pointArrayInfo->count, fileStream);
     if (error == ERROR_OK)
     {
-        pointArrayInfo->vector = allocPoints(pointArrayInfo->count);
+        pointArrayInfo->vector = pointsAlloc(pointArrayInfo->count);
         if (error == ERROR_OK)
         {
-            error = loadPoints(fileStream, pointArrayInfo);
+            error = loadPoints(pointArrayInfo, fileStream);
         }
 
         if (error != ERROR_OK)
         {
-             deallocPoints(pointArrayInfo);
+             pointsDealloc(pointArrayInfo);
         }
     }
 
     return error;
 }
-ErrorInfo handleEdgeArray(const FileInfo *fileStream, EdgeArrayInfo *edgeArrayInfo){
+ErrorInfo handleEdgeArray(EdgeArrayInfo *edgeArrayInfo, const FileInfo *fileStream){
 
-    ErrorInfo error = loadCount(fileStream, &edgeArrayInfo->count );
+    ErrorInfo error = loadCount(&edgeArrayInfo->count, fileStream);
     if (error == ERROR_OK)
     {
-        edgeArrayInfo->vector = allocEdges(edgeArrayInfo->count);
+        edgeArrayInfo->vector = edgesAlloc(edgeArrayInfo->count);
         if (error == ERROR_OK)
         {
-            error = loadEdges(fileStream, edgeArrayInfo);
+            error = loadEdges(edgeArrayInfo, fileStream);
         }
 
         if (error != ERROR_OK)
         {
-             deallocEdges(edgeArrayInfo);
+             edgesDealloc(edgeArrayInfo);
         }
     }
 
@@ -88,8 +87,8 @@ ErrorInfo comparePointWithEdges( PointArrayInfo *pointArrayInfo, EdgeArrayInfo *
     // in case edge index beyond point's count
     if(i < edgeArrayInfo->count)
     {
-        deallocEdges(edgeArrayInfo);
-        deallocPoints(pointArrayInfo);
+        edgesDealloc(edgeArrayInfo);
+        pointsDealloc(pointArrayInfo);
         return ERROR_FILE_NOT_VALID;
     }
 
@@ -116,13 +115,14 @@ ErrorInfo fileLoadModel(Model *model, const FileInfo *fileStream)
 {
     ErrorInfo error = ERROR_OK;
 
-    if((error = handlePointArray(fileStream, &model->pointArrayInfo)) != ERROR_OK)
+    if((error = handlePointArray(&model->pointArrayInfo, fileStream)) != ERROR_OK)
     {
         return error;
     }
 
-    if((error = handleEdgeArray(fileStream, &model->edgeArrayInfo)) != ERROR_OK)
+    if((error = handleEdgeArray(&model->edgeArrayInfo, fileStream)) != ERROR_OK)
     {
+        pointsDealloc(&model->pointArrayInfo);
         return error;
     }
 

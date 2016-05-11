@@ -34,11 +34,11 @@ void scalePoint(PointInfo *v, double scale)
 }
 
 
-PointInfo* allocPoints(int count)
+PointInfo* pointsAlloc(int count)
 {
     return new PointInfo[count];
 }
-void deallocPoints(PointArrayInfo *pointVectorInfo)
+void pointsDealloc(PointArrayInfo *pointVectorInfo)
 {
     delete [] pointVectorInfo->vector;
     pointVectorInfo->vector = NULL;

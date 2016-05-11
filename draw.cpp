@@ -1,23 +1,28 @@
 #include "draw.h"
 
-void drawEdge(QGraphicsScene *scene, const PointInfo *fromPoint, const PointInfo *toPoint)
+void drawEdge(SceneInfo *scene, const PointInfo *fromPoint, const PointInfo *toPoint)
 {
-    argument.scene->instance->addLine(fromPoint->x, fromPoint->y, toPoint->x, toPoint->y);
+    scene->instance->addLine(fromPoint->x, fromPoint->y, toPoint->x, toPoint->y);
 }
 
-void drawEdges(GraphicsScene *scene, const PointArrayInfo *vertexes, const EdgeArrayInfo *edgeArrayInfo)
+PointInfo *getFromPoint(const PointArrayInfo *vertexes, const EdgeInfo *edge)
+{
+    return &vertexes->vector[ edge->from-1 ];
+}
+PointInfo *getToPoint(const PointArrayInfo *vertexes, const EdgeInfo *edge)
+{
+    return &vertexes->vector[ edge->to-1 ];
+}
+
+void drawEdges(SceneInfo *scene, const PointArrayInfo *vertexes, const EdgeArrayInfo *edgeArrayInfo)
 {
     const PointInfo *fromPoint, *toPoint;
-    int index;
 
     for(int i = 0; i < edgeArrayInfo->count; i++)
     {
-        index = edgeArrayInfo->vector[i].from-1;
-        fromPoint = &vertexes->vector[index];
+        fromPoint = getFromPoint(vertexes, &edgeArrayInfo->vector[i]);
+        toPoint = getToPoint(vertexes, &edgeArrayInfo->vector[i]);
 
-        index = edgeArrayInfo->vector[i].to-1;
-        toPoint = &vertexes->vector[index];
-
-        drawEdge(argument, fromPoint, toPoint);
+        drawEdge(scene, fromPoint, toPoint);
     }
 }

@@ -21,7 +21,7 @@ ErrorInfo modelLoad(Model*, StreamInfo *);
 ErrorInfo modelTransform(Model*, TransformInfo *);
 ErrorInfo modelDraw(Model*, SceneInfo *);
 
-Model     modelAlloc(void);
+Model     modeInit(void);
 void      modelDealloc(Model*);
 
 

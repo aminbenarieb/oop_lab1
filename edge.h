@@ -13,7 +13,7 @@ struct EdgeArrayInfo
     EdgeInfo* vector;
 };
 
-void       deallocEdges(EdgeArrayInfo*);
-EdgeInfo*  allocEdges(int);
+void       edgesDealloc(EdgeArrayInfo*);
+EdgeInfo*  edgesAlloc(int);
 
 #endif // EDGE_H

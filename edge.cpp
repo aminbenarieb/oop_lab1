@@ -1,12 +1,12 @@
 #import "edge.h"
 #include <iostream>
 
-EdgeInfo* allocEdges(int count)
+EdgeInfo* edgesAlloc(int count)
 {
     return new EdgeInfo[count];
 }
 
-void deallocEdges(EdgeArrayInfo *edgeArrayInfo)
+void edgesDealloc(EdgeArrayInfo *edgeArrayInfo)
 {
     delete [] edgeArrayInfo->vector;
     edgeArrayInfo->vector = NULL;

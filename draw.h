@@ -11,6 +11,6 @@ struct SceneInfo
 };
 
 
-void drawEdges(QGraphicsScene *scene, const PointArrayInfo*, const EdgeArrayInfo*);
+void drawEdges(SceneInfo *, const PointArrayInfo*, const EdgeArrayInfo*);
 
 #endif // DRAW_H

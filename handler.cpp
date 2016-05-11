@@ -3,7 +3,7 @@
 
 ErrorInfo handler(ActionInfo action, ArgumentInfo argument)
 {
-    static Model model = modelAlloc();
+    static Model model = modeInit();
 
     ErrorInfo error = ERROR_OK;
 
@@ -11,13 +11,13 @@ ErrorInfo handler(ActionInfo action, ArgumentInfo argument)
     {
         case ACTION_CHANGE:
         {
-            error = modelTransform(&model, argument.modification);
+            error = modelTransform(&model, &argument.modification);
             break;
         }
 
         case ACTION_LOAD:
         {
-            error = modelLoad(&model,argument.stream);
+            error = modelLoad(&model, argument.stream);
             break;
         }
 
