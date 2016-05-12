@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2016-03-27T21:07:47
+# Project created by QtCreator 2016-04-29T20:07:57
 #
 #-------------------------------------------------
 
@@ -14,34 +14,24 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
+    file.cpp \
+    model.cpp \
     handler.cpp \
-    qpaintwidget.cpp \
-    steamhandler.cpp \
-    errorinfo.cpp \
-    scenehandler.cpp \
-    modelhandler.cpp \
-    canvashandler.cpp \
-    filehandler.cpp \
-    fileloader.cpp \
-    datahandler.cpp \
-    converthandler.cpp \
-    matrixhandler.cpp
+    transform.cpp \
+    draw.cpp \
+    point.cpp \
+    edge.cpp \
+    stream.cpp
 
 HEADERS  += mainwindow.h \
-    config.h \
+    file.h \
+    model.h \
     handler.h \
-    qpaintwidget.h \
-    steamhandler.h \
-    errorinfo.h \
-    scenehandler.h \
-    modelhandler.h \
-    canvashandler.h \
-    filehandler.h \
-    fileloader.h \
-    modeldata.h \
-    datahandler.h \
-    converthandler.h \
-    matrixhandler.h
+    error.h \
+    transform.h \
+    point.h \
+    edge.h \
+    draw.h \
+    stream.h
 
-FORMS += \
-    mainwindow.ui
+FORMS    += mainwindow.ui
